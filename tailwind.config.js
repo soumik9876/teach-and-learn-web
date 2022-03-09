@@ -3,6 +3,17 @@ module.exports = {
 	presets: [],
 	darkMode: "media", // or 'class'
 	theme: {
+		extend: {
+			colors: {
+				c_background: "#FAFAFA",
+				c_text: "#585652",
+				c_inactive_text: "#C4C4C4",
+				c_primary_light: "#F7F4EB",
+				c_primary_main: "#FFC72C",
+				c_secondary_main: "#176590",
+				c_primary_dark: "#F5B501",
+			},
+		},
 		screens: {
 			sm: "640px",
 			md: "768px",
