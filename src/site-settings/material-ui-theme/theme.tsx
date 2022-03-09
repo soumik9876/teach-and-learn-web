@@ -24,7 +24,9 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: `${["Raleway", "Roboto", "Helvetica", "Arial", "sans-serif"].join()}!important`,
-
+        button: {
+            color: "#585652"
+        }
     },
     components: {
         MuiButton: {
@@ -32,7 +34,8 @@ const theme = createTheme({
                 root: {
                     textTransform: "none",
                     borderRadius: "8px",
-                    boxShadow: "none"
+                    boxShadow: "none",
+                    fontWeight: 600
                 },
             },
         },

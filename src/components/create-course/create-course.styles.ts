@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         width: "100%",
         background: "#fff",
         boxShadow: "0px 5px 19px rgba(207, 194, 194, 0.25)",
-        padding: 16
+        padding: 30
     },
 }))
 export default useStyles
