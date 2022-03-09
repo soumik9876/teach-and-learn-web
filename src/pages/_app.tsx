@@ -52,11 +52,13 @@ export default function MyApp(props: AppProps) {
                 <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
             </Head>
             <ThemeProvider theme={theme}>
+                <BreakpointContext.Provider value={breakpoints}>
                 {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline/>
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>
+                </BreakpointContext.Provider>
             </ThemeProvider>
         </React.Fragment>
     );
