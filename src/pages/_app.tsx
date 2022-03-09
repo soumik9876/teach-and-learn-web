@@ -3,6 +3,7 @@ import Head from 'next/head';
 import {AppProps} from 'next/app';
 import {ThemeProvider, CssBaseline, useMediaQuery} from '@mui/material';
 import theme from '../site-settings/material-ui-theme/theme';
+import "../styles/tailwind.css"; // importing tailwind.css
 import AuthLayout from "../components/layouts/authlayout";
 import AppLayout from "../components/layouts/applayout";
 import {useRouter} from "next/router";
