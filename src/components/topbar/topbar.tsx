@@ -10,17 +10,24 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Link from "next/link"
 import {ROUTES} from "../../core/interfaces/routes";
 import GoogleIcon from '@mui/icons-material/Google';
+import {debug_print} from "../../core/utils";
 
 const TopBar = () => {
     const classes = useStyles();
     const router = useRouter();
     const breakpoints = useContext(BreakpointContext);
-    const navClass = (href: string) => (router.pathname.includes(href) ? classes.drawerActive : "");
-    console.log(breakpoints)
+    const navClass = (href: string) => (router.pathname == href ? classes.drawerActive : "");
+    debug_print(breakpoints)
     return (
         <>
             <Box sx={{flexGrow: 1}}>
-                <AppBar position="static" className={classes.appbarRoot}>
+                <AppBar position="static" className={classes.appbarRoot} sx={{
+                    bgcolor: `${theme.palette.background.default}!important`,
+                    boxShadow: "none",
+                    "& .MuiButton-root": {
+                        color: theme.palette.text.secondary
+                    },
+                }}>
                     <Toolbar>
                         {breakpoints.isMobileView && <IconButton
                             size="large"
