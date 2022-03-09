@@ -302,6 +302,21 @@ export default function IndividualCourse() {
 						</span>
 					</div>
 				</div>
+				<div>
+					<span
+						style={{
+							fontFamily: "Raleway",
+							fontStyle: "normal",
+							fontWeight: 500,
+							fontSize: "20px",
+							lineHeight: "28px",
+							fontFeatureSettings: "'pnum' on, 'lnum' on",
+							color: "#585652",
+						}}
+					>
+						5.:30
+					</span>
+				</div>
 			</div>
 		);
 	};
@@ -324,7 +339,74 @@ export default function IndividualCourse() {
 					</span>
 				</div>
 				<div>
-					<CourseVideoCard />
+					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
+						return (
+							<div key={idx} className='py-2'>
+								<CourseVideoCard />
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		);
+	};
+
+	const CourseArticleCard = () => {
+		return (
+			<div
+				className='w-full py-4 px-6 flex items-center'
+				style={{
+					background: "#FFFFFF",
+					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
+					borderRadius: "16px",
+				}}
+			>
+				<div className='flex space-x-6 items-center'>
+					<div className='w-3 h-3 bg-c_primary_dark rounded-full'></div>
+					<div>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 500,
+								fontSize: "20px",
+								lineHeight: "28px",
+								color: "#585652",
+							}}
+						>
+							Course Outline
+						</span>
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const CourseArticles = () => {
+		return (
+			<div>
+				<div className='mb-2'>
+					<span
+						style={{
+							fontFamily: "Raleway",
+							fontStyle: "normal",
+							fontWeight: 600,
+							fontSize: "24px",
+							lineHeight: "28px",
+							color: "#585652",
+						}}
+					>
+						Course Articles
+					</span>
+				</div>
+				<div>
+					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
+						return (
+							<div key={idx} className='py-2'>
+								<CourseArticleCard />
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		);
@@ -337,7 +419,12 @@ export default function IndividualCourse() {
 			</div>
 			<div className='w-full  flex justify-center py-8'>
 				<div className='w-[75%] pb-22'>
-					<CourseVideos />
+					<div className='py-4'>
+							<CourseVideos />
+					</div>
+					<div className='py-4'>
+						<CourseArticles />
+					</div>
 				</div>
 			</div>
 		</div>
