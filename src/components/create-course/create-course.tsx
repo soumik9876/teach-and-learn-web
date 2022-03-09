@@ -14,13 +14,18 @@ import {
 import useStyles from "./create-course.styles";
 import {useState} from "react";
 import {Add} from "@mui/icons-material";
+import AddVideoDialog from "../dialogs/add-video";
 
 const CreateCourseRoot = () => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
+    const [showAddVideoDialog, setShowAddVideoDialog] = useState(false);
+    const [showAddArticleDialog, setShowAddArticleDialog] = useState(false);
+    const [showAddQuizDialog, setShowAddQuizDialog] = useState(false);
     return (
         <>
-            <Box p={15} sx={{height: "70vh"}}>
+            <AddVideoDialog open={showAddVideoDialog} setOpen={setShowAddVideoDialog}/>
+            <Box p={15} sx={{height: "80vh"}}>
                 <Grid container sx={{height: "100%"}}>
                     <Grid item xs={8} container justifyContent={"center"} alignItems={"center"}>
                         <img src="create-course.png" alt="course_illustration" className={classes.illustration}/>
@@ -64,22 +69,31 @@ const CreateCourseRoot = () => {
                                     <>
                                         <Grid container sx={{mb: 2}}>
                                             <Grid item xs={4} container justifyContent={"center"}>
-                                                <Button variant={"contained"} className={"bg-c_primary_main p-5 mb-1"}>
-                                                    <Add/>
-                                                </Button>
+                                                <Grid item xs={12} container justifyContent={"center"}>
+                                                    <Button variant={"contained"}
+                                                            className={"bg-c_primary_main p-5 mb-1"}
+                                                            onClick={() => setShowAddVideoDialog(true)}>
+                                                        <Add/>
+                                                    </Button>
+                                                </Grid>
                                                 <Typography className={"font-bold"}>Add video</Typography>
-
                                             </Grid>
                                             <Grid item xs={4} container justifyContent={"center"}>
-                                                <Button variant={"contained"} className={"bg-c_primary_main p-5 mb-1"}>
-                                                    <Add/>
-                                                </Button>
+                                                <Grid item xs={12} container justifyContent={"center"}>
+                                                    <Button variant={"contained"}
+                                                            className={"bg-c_primary_main p-5 mb-1"}>
+                                                        <Add/>
+                                                    </Button>
+                                                </Grid>
                                                 <Typography className={"font-bold"}>Add article</Typography>
                                             </Grid>
                                             <Grid item xs={4} container justifyContent={"center"}>
-                                                <Button variant={"contained"} className={"bg-c_primary_main p-5 mb-1"}>
-                                                    <Add/>
-                                                </Button>
+                                                <Grid item xs={12} container justifyContent={"center"}>
+                                                    <Button variant={"contained"}
+                                                            className={"bg-c_primary_main p-5 mb-1"}>
+                                                        <Add/>
+                                                    </Button>
+                                                </Grid>
                                                 <Typography className={"font-bold"}>Add quiz</Typography>
                                             </Grid>
                                         </Grid>
