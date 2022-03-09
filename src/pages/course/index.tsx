@@ -239,6 +239,81 @@ export default function IndividualCourse() {
 					<div className='col-span-1 pt-6'>
 						<CourseCard />
 					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const DesigningCourses = () => {
+		return (
+			<div className='pt-12'>
+				<div>
+					<span
+						style={{
+							fontFamily: "Raleway",
+							fontStyle: "normal",
+							fontWeight: 600,
+							fontSize: "24px",
+							lineHeight: "28px",
+							textDecorationLine: "underline",
+							color: "#585652",
+						}}
+					>
+						Popular Courses in Designing
+					</span>
+				</div>
+				<div className='grid grid-cols-3'>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const MLCourses = () => {
+		return (
+			<div className='pt-12'>
+				<div>
+					<span
+						style={{
+							fontFamily: "Raleway",
+							fontStyle: "normal",
+							fontWeight: 600,
+							fontSize: "24px",
+							lineHeight: "28px",
+							textDecorationLine: "underline",
+							color: "#585652",
+						}}
+					>
+						Popular Courses in Machine Learning
+					</span>
+				</div>
+				<div className='grid grid-cols-3'>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
+					<div className='col-span-1 pt-6'>
+						<CourseCard />
+					</div>
 					
 				</div>
 			</div>
@@ -250,6 +325,8 @@ export default function IndividualCourse() {
 			<div className='w-[80%] pb-22'>
 				<Banner />
 				<WebDevCourses />
+				<DesigningCourses />
+				<MLCourses />
 			</div>
 		</div>
 	);
