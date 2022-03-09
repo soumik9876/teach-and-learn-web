@@ -25,6 +25,7 @@ export default function IndividualCourse() {
 								<span
 									style={{
 										fontStyle: "normal",
+										fontWeight:600,
 										fontSize: "14px",
 										lineHeight: "21px",
 									}}
