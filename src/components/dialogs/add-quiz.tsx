@@ -67,11 +67,13 @@ const AddQuizDialog = ({open, setOpen}) => {
                             <Grid item xs={3} md={2} container alignItems={"center"}>
                                 <Button variant={"contained"} className={"bg-c_primary_main"} fullWidth>Add option</Button>
                             </Grid>
+
                         </Grid>
                         <Button variant={"contained"} className={"bg-c_primary_main mt-4"}>
                             Publish question
                         </Button>
                     </Grid>
+
                 </Grid>
             </AlertDialogSlide>
         </>

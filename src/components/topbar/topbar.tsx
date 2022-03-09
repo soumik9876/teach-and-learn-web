@@ -7,10 +7,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import useStyles from "./topbar.styles";
 import {useRouter} from "next/router";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Link from "next/link"
 import {ROUTES} from "../../core/interfaces/routes";
 import GoogleIcon from '@mui/icons-material/Google';
 import {debug_print} from "../../core/utils";
+import Link from "next/link"
 
 const TopBar = () => {
     const classes = useStyles();
@@ -38,13 +38,16 @@ const TopBar = () => {
                         >
                             <MenuIcon/>
                         </IconButton>}
-                        <Typography variant="h6" component="div" sx={{flexGrow: breakpoints.isMobileView && 1}}>
-                            <Typography sx={{color: theme.palette.text.secondary, display: 'inline'}}
-                                        className={"font-bold text-lg"}>Teach</Typography>
-                            <Typography sx={{display: 'inline'}} className={"font-bold text-xl"}>&</Typography>
-                            <Typography sx={{color: theme.palette.primary.main, display: 'inline'}}
-                                        className={"font-bold text-lg"}>Learn</Typography>
-                        </Typography>
+                        <Link href={"/"} passHref>
+                            <Typography variant="h6" component="div"
+                                        sx={{flexGrow: breakpoints.isMobileView && 1, cursor: "pointer"}}>
+                                <Typography sx={{color: theme.palette.text.secondary, display: 'inline'}}
+                                            className={"font-bold text-lg"}>Teach</Typography>
+                                <Typography sx={{display: 'inline'}} className={"font-bold text-xl"}>&</Typography>
+                                <Typography sx={{color: theme.palette.primary.main, display: 'inline'}}
+                                            className={"font-bold text-lg"}>Learn</Typography>
+                            </Typography>
+                        </Link>
                         {!breakpoints.isMobileView && <Grid container>
                             <Grid item md={12} lg={6} container justifyContent={"center"}>
                                 <Paper

@@ -75,9 +75,9 @@ const AlertDialogSlide: React.FC<props> = ({children, open, setOpen}) => {
                     "& .MuiDialog-paper": {
                         background: theme.palette.background.default,
                         margin: "0 1rem!important",
-                        overflowY: "visible!important",
+                        overflowY: "scroll!important",
                         borderRadius: 4,
-                        padding: 6
+                        padding: 6,
                     },
                 }}
             >
