@@ -260,16 +260,71 @@ export default function IndividualCourse() {
 											Free
 										</span>
 									</div>
-									<button className='px-6 py-1 bg-white my-2 rounded-md'>
+									<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
 										<span className='font-raleway'>Enroll</span>
 									</button>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className='flex-[.6] flex justify-center items-center '>
+					<div className='flex-[.6] flex justify-center items-center -z-5'>
 						<img src='/nodeJs.png' alt='' className='rounded-2xl' />
 					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const CourseVideoCard = () => {
+		return (
+			<div
+				className='w-full py-4 px-6 flex justify-between items-center'
+				style={{
+					background: "#FFFFFF",
+					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
+					borderRadius: "16px",
+				}}
+			>
+				<div className='flex space-x-6 items-center'>
+					<div className='w-3 h-3 bg-c_primary_dark rounded-full'></div>
+					<div>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 500,
+								fontSize: "20px",
+								lineHeight: "28px",
+								color: "#585652",
+							}}
+						>
+							Course Outline
+						</span>
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const CourseVideos = () => {
+		return (
+			<div>
+				<div className='mb-2'>
+					<span
+						style={{
+							fontFamily: "Raleway",
+							fontStyle: "normal",
+							fontWeight: 600,
+							fontSize: "24px",
+							lineHeight: "28px",
+							color: "#585652",
+						}}
+					>
+						Course Videos
+					</span>
+				</div>
+				<div>
+					<CourseVideoCard />
 				</div>
 			</div>
 		);
@@ -281,7 +336,9 @@ export default function IndividualCourse() {
 				<Banner />
 			</div>
 			<div className='w-full  flex justify-center py-8'>
-				<div className='w-[75%] pb-22'>h</div>
+				<div className='w-[75%] pb-22'>
+					<CourseVideos />
+				</div>
 			</div>
 		</div>
 	);
