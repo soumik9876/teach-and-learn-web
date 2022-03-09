@@ -20,7 +20,7 @@ const CreateCourseRoot = () => {
     const [activeStep, setActiveStep] = useState(0);
     return (
         <>
-            <Box p={15} sx={{height: "70vh"}}>
+            <Box p={15} sx={{height: "80vh"}}>
                 <Grid container sx={{height: "100%"}}>
                     <Grid item xs={8} container justifyContent={"center"} alignItems={"center"}>
                         <img src="create-course.png" alt="course_illustration" className={classes.illustration}/>

@@ -35,7 +35,8 @@ const theme = createTheme({
                     textTransform: "none",
                     borderRadius: "8px",
                     boxShadow: "none",
-                    fontWeight: 600
+                    fontWeight: 600,
+                    color: "#585652"
                 },
             },
         },
