@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { ThemeProvider,CssBaseline } from '@mui/material';
 import theme from '../site-settings/material-ui-theme/theme';
+import "../styles/tailwind.css"; // importing tailwind.css
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
