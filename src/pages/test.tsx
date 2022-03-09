@@ -1,7 +1,9 @@
-import {Button} from "@mui/material";
+import {Box, Button} from "@mui/material";
 
 export default function test() {
     return (
-        <Button color={"primary"} variant={'contained'}>Test</Button>
+        <Box p={4}>
+            <Button color={"primary"} variant={'contained'}>Test</Button>
+        </Box>
     )
 }
