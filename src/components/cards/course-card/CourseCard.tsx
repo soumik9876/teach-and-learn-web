@@ -2,7 +2,7 @@ import React from "react";
 
 export default function CourseCard() {
 	return (
-		<div className='p-2'>
+		<div className='px-4 py-2 duration-150 hover:scale-105'>
 			<div
 				className='pb-4'
 				style={{
