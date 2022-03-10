@@ -1,5 +1,5 @@
 module.exports = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     webpack5: true,
     presets: [
         "next/babel"

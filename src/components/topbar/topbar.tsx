@@ -1,4 +1,16 @@
-import {AppBar, Box, Button, Divider, Grid, IconButton, InputBase, Paper, Toolbar, Typography} from "@mui/material";
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    Divider,
+    Grid,
+    IconButton,
+    InputBase,
+    Paper,
+    Toolbar,
+    Typography
+} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import theme from "../../site-settings/material-ui-theme/theme";
 import {BreakpointContext} from "../../pages/_app";
@@ -12,13 +24,16 @@ import GoogleIcon from '@mui/icons-material/Google';
 import {debug_print} from "../../core/utils";
 import Link from "next/link"
 import GoogleLoginButton from "./google-login";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
 const TopBar = () => {
     const classes = useStyles();
     const router = useRouter();
     const breakpoints = useContext(BreakpointContext);
     const navClass = (href: string) => (router.pathname == href ? classes.drawerActive : "");
-    debug_print(breakpoints)
+    const isAuthenticated = useSelector((state:RootState)=> state.auth.isAuthenticated);
+    const userProfile = useSelector((state:RootState)=> state.auth.userProfile);
     return (
         <>
             <Box sx={{flexGrow: 1}}>
@@ -103,7 +118,7 @@ const TopBar = () => {
                         </Grid>}
 
                         {/*<IconButton className={"bg-c_inactive_text"}><GoogleIcon/></IconButton>*/}
-                        <GoogleLoginButton/>
+                        {!isAuthenticated?<GoogleLoginButton/>:<Avatar src={userProfile?.picture}/>}
                     </Toolbar>
                 </AppBar>
             </Box>

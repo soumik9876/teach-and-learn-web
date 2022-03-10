@@ -14,6 +14,7 @@ const GoogleLoginButton = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const serverLogin = async (access_token: string) => {
+        debug_print(access_token)
         const response = await fetch(REST_API_ENDPOINTS.auth.v1.login, {
             method: "POST",
             headers: {

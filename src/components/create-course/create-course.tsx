@@ -12,18 +12,61 @@ import {
     Typography
 } from "@mui/material";
 import useStyles from "./create-course.styles";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Add} from "@mui/icons-material";
 import AddVideoDialog from "../dialogs/add-video";
 import AddArticleDialog from "../dialogs/add-article";
 import AddQuizDialog from "../dialogs/add-quiz";
+import {getRequest, postRequest} from "../../core/fetchers";
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
+import {REST_API_ENDPOINTS} from "../../core/interfaces/routes";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {debug} from "util";
+import {debug_print} from "../../core/utils";
 
 const CreateCourseRoot = () => {
     const classes = useStyles();
+    const serverToken = useSelector((state: RootState) => state.auth.server_token);
+    const userProfile = useSelector((state: RootState) => state.auth.userProfile);
     const [activeStep, setActiveStep] = useState(0);
     const [showAddVideoDialog, setShowAddVideoDialog] = useState(false);
     const [showAddArticleDialog, setShowAddArticleDialog] = useState(false);
     const [showAddQuizDialog, setShowAddQuizDialog] = useState(false);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
+    const [price, setPrice] = useState(0);
+    const [categories, setCategories] = useState([]);
+    const [imageLink, setImageLink] = useState("");
+    useEffect(() => {
+        getRequest(REST_API_ENDPOINTS.course.v1.category, serverToken).then((response) => {
+            setCategories(response);
+            debug_print(response)
+        })
+    }, []);
+
+    function createCourse() {
+
+        if (title == "" || category == "") {
+            return;
+        }
+        const body = {
+            title: title,
+            description: description,
+            category: category,
+            price: price,
+            teacher: [userProfile.teacher.id],
+            image_link: imageLink
+        }
+        debug_print(body)
+        postRequest(REST_API_ENDPOINTS.course.v1.course, body, serverToken).then((response) => {
+            debug_print(response)
+        })
+        setActiveStep(1);
+    }
+    debug_print(categories)
     return (
         <>
             <AddVideoDialog open={showAddVideoDialog} setOpen={setShowAddVideoDialog}/>
@@ -51,23 +94,35 @@ const CreateCourseRoot = () => {
                                 </Stepper>
                                 {activeStep == 0 ? (
                                     <>
-                                        <TextField label={"Title"} fullWidth/>
-                                        <TextField label={"Description"} fullWidth sx={{my: 1}} multiline rows={4}/>
+                                        <TextField label={"Title"} fullWidth value={title} required
+                                                   onChange={(event) => setTitle(event.target.value)}/>
+                                        <TextField label={"Description"} fullWidth sx={{my: 1}} multiline rows={4}
+                                                   value={description}
+                                                   onChange={(event) => setDescription(event.target.value)}/>
+                                        <TextField label={"Image Link"} fullWidth sx={{my: 1}}
+                                                   value={imageLink}
+                                                   onChange={(event) => setImageLink(event.target.value)}/>
                                         <FormControl fullWidth>
                                             <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                // value={}
-                                                label="Category"
-                                                // onChange={handleChange}
+                                            <Select required
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={category}
+                                                    label="Category"
+                                                    onChange={(event) => setCategory(event.target.value)}
                                             >
-                                                <MenuItem value={10}>Ten</MenuItem>
-                                                <MenuItem value={20}>Twenty</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem>
+                                                {categories && categories.map((item, index) => (
+                                                    <MenuItem key={index} value={item.id}>{item.title}</MenuItem>
+                                                ))}
                                             </Select>
                                         </FormControl>
-                                        <TextField label={"course charge"} fullWidth sx={{my: 1}}/>
+                                        <TextField type={"number"} label={"course charge"} fullWidth sx={{my: 1}}
+                                                   value={price}
+                                                   onChange={(event) => setPrice(parseInt(event.target.value))}/>
+                                        <Button fullWidth variant={"contained"} onClick={createCourse}
+                                                className={"bg-c_primary_main"}>
+                                            Create
+                                        </Button>
                                     </>
                                 ) : (
                                     <>
@@ -76,7 +131,8 @@ const CreateCourseRoot = () => {
                                                 <Grid item xs={12} container justifyContent={"center"}>
                                                     <Button variant={"contained"}
                                                             className={"bg-c_primary_main p-5 mb-1"}
-                                                            onClick={() => setShowAddVideoDialog(true)}>
+                                                            onClick={() => setShowAddVideoDialog(true)}
+                                                            sx={{p: 2, mb: 1}}>
                                                         <Add/>
                                                     </Button>
                                                 </Grid>
@@ -86,7 +142,9 @@ const CreateCourseRoot = () => {
                                                 <Grid item xs={12} container justifyContent={"center"}>
                                                     <Button variant={"contained"}
                                                             className={"bg-c_primary_main p-5 mb-1"}
-                                                            onClick={() => setShowAddArticleDialog(true)}>
+                                                            onClick={() => setShowAddArticleDialog(true)}
+                                                            sx={{p: 2, mb: 1}}>
+
                                                         <Add/>
                                                     </Button>
                                                 </Grid>
@@ -95,20 +153,19 @@ const CreateCourseRoot = () => {
                                             <Grid item xs={4} container justifyContent={"center"}>
                                                 <Grid item xs={12} container justifyContent={"center"}>
                                                     <Button variant={"contained"}
-                                                            className={"bg-c_primary_main p-5 mb-1"}
-                                                            onClick={()=> setShowAddQuizDialog(true)}>
+                                                            className={"bg-c_primary_main "}
+                                                            sx={{p: 2, mb: 1}}
+                                                            onClick={() => setShowAddQuizDialog(true)}>
                                                         <Add/>
                                                     </Button>
                                                 </Grid>
                                                 <Typography className={"font-bold"}>Add quiz</Typography>
                                             </Grid>
+
                                         </Grid>
                                     </>
                                 )}
-                                <Button fullWidth variant={"contained"} onClick={() => setActiveStep(1)}
-                                        className={"bg-c_primary_main"}>
-                                    Next
-                                </Button>
+
                             </Box>
 
                         </Box>
