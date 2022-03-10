@@ -346,7 +346,7 @@ export default function IndividualCourse() {
 	const CourseVideos = () => {
 		return (
 			<div>
-				{course.video_set && (
+				{course.video_set.length !== 0 && (
 					<div>
 						<div className='mb-2'>
 							<span
@@ -377,14 +377,17 @@ export default function IndividualCourse() {
 		);
 	};
 
-	const CourseArticleCard = () => {
+	const CourseArticleCard = ({article}) => {
 		return (
 			<div
-				className='w-full py-4 px-6 flex items-center'
+				className='w-full py-4 px-6 flex items-center cursor-pointer'
 				style={{
 					background: "#FFFFFF",
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
+				}}
+				onClick={() => {
+					router.push(ROUTES.article(article.id));
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -400,7 +403,7 @@ export default function IndividualCourse() {
 								color: "#585652",
 							}}
 						>
-							Course Outline
+							{article.title}
 						</span>
 					</div>
 				</div>
@@ -411,41 +414,46 @@ export default function IndividualCourse() {
 	const CourseArticles = () => {
 		return (
 			<div>
-				<div className='mb-2'>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							color: "#585652",
-						}}
-					>
-						Course Articles
-					</span>
-				</div>
-				<div>
-					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
-						return (
-							<div key={idx} className='py-2'>
-								<CourseArticleCard />
-							</div>
-						);
-					})}
-				</div>
+				{course.blog_set.length !== 0 && <div>
+					<div className='mb-2'>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 600,
+								fontSize: "24px",
+								lineHeight: "28px",
+								color: "#585652",
+							}}
+						>
+							Course Articles
+						</span>
+					</div>
+					<div>
+						{course.blog_set.map((obj, idx) => {
+							return (
+								<div key={idx} className='py-2'>
+									<CourseArticleCard article={obj}/>
+								</div>
+							);
+						})}
+					</div>
+				</div>}
 			</div>
 		);
 	};
 
-	const CourseQuizCard = () => {
+	const CourseQuizCard = ({quiz}) => {
 		return (
 			<div
-				className='w-full py-4 px-6 flex justify-between items-center'
+				className='w-full py-4 px-6 flex justify-between items-center cursor-pointer'
 				style={{
 					background: "#FFFFFF",
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
+				}}
+				onClick={()=>{
+					router.push(ROUTES.quiz(quiz.id)) ;
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -461,7 +469,7 @@ export default function IndividualCourse() {
 								color: "#585652",
 							}}
 						>
-							Course Outline
+							{quiz.title}
 						</span>
 					</div>
 				</div>
@@ -477,7 +485,7 @@ export default function IndividualCourse() {
 							color: "#585652",
 						}}
 					>
-						20 Questions
+						{""}
 					</span>
 				</div>
 			</div>
@@ -487,29 +495,31 @@ export default function IndividualCourse() {
 	const CourseQuizes = () => {
 		return (
 			<div>
-				<div className='mb-2'>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							color: "#585652",
-						}}
-					>
-						Course Quizes
-					</span>
-				</div>
-				<div>
-					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
-						return (
-							<div key={idx} className='py-2'>
-								<CourseQuizCard />
-							</div>
-						);
-					})}
-				</div>
+				{course.quiz_set.length !== 0 && <div>
+					<div className='mb-2'>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 600,
+								fontSize: "24px",
+								lineHeight: "28px",
+								color: "#585652",
+							}}
+						>
+							Course Quizes
+						</span>
+					</div>
+					<div>
+						{course.quiz_set.map((obj, idx) => {
+							return (
+								<div key={idx} className='py-2'>
+									<CourseQuizCard quiz={obj}/>
+								</div>
+							);
+						})}
+					</div>
+				</div>}
 			</div>
 		);
 	};
