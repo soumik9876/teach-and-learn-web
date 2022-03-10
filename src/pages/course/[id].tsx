@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getRequest } from "../../core/fetchers";
-import { REST_API_ENDPOINTS } from "../../core/interfaces/routes";
+import { REST_API_ENDPOINTS, ROUTES } from "../../core/interfaces/routes";
 import { RootState } from "../../redux/store";
 import { debug_print } from "./../../core/utils";
 
@@ -48,7 +48,7 @@ export default function IndividualCourse() {
 	const Banner = () => {
 		return (
 			<div className='bg-c_primary_dark w-screen relative'>
-				<img className='w-screen h-[24rem] absolute bottom-0' src='/course_banner.png' alt='' />
+				<img className='w-screen h-[24rem] absolute bottom-0 z-5' src='/course_banner.png' alt='' />
 
 				<div className='flex w-full z-5 pb-[8rem]'>
 					<div className='flex-1 p-20'>
@@ -276,7 +276,7 @@ export default function IndividualCourse() {
 												color: "#FFFFFF",
 											}}
 										>
-											{course.price == 0 ? "Free" : course.price}
+											{course.price == 0 ? "Free" : `$ ${course.price}`}
 										</span>
 									</div>
 									<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
@@ -286,7 +286,7 @@ export default function IndividualCourse() {
 							</div>
 						</div>
 					</div>
-					<div className='flex-[.6] flex justify-center items-center -z-5'>
+					<div className='flex-[.6] flex justify-center items-center'>
 						<img src={course.image_link} alt='' className='rounded-2xl w-[22rem] h-auto' />
 					</div>
 				</div>
@@ -294,19 +294,22 @@ export default function IndividualCourse() {
 		);
 	};
 
-	const CourseVideoCard = () => {
+	const CourseVideoCard = ({video}:any) => {
 		return (
 			<div
-				className='w-full py-4 px-6 flex justify-between items-center'
+				className='w-full py-4 px-6 flex justify-between items-center cursor-pointer'
 				style={{
 					background: "#FFFFFF",
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
 				}}
+				onClick={()=>{
+					router.push(ROUTES.video(video.id)) ;
+				}}
 			>
 				<div className='flex space-x-6 items-center'>
 					<div className='w-3 h-3 bg-c_primary_dark rounded-full'></div>
-					<div>
+					<div className="truncate">
 						<span
 							style={{
 								fontFamily: "Raleway",
@@ -317,7 +320,7 @@ export default function IndividualCourse() {
 								color: "#585652",
 							}}
 						>
-							Course Outline
+							{video.title}
 						</span>
 					</div>
 				</div>
@@ -333,7 +336,7 @@ export default function IndividualCourse() {
 							color: "#585652",
 						}}
 					>
-						5.:30
+						{""}
 					</span>
 				</div>
 			</div>
@@ -343,29 +346,33 @@ export default function IndividualCourse() {
 	const CourseVideos = () => {
 		return (
 			<div>
-				<div className='mb-2'>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							color: "#585652",
-						}}
-					>
-						Course Videos
-					</span>
-				</div>
-				<div>
-					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
-						return (
-							<div key={idx} className='py-2'>
-								<CourseVideoCard />
-							</div>
-						);
-					})}
-				</div>
+				{course.video_set && (
+					<div>
+						<div className='mb-2'>
+							<span
+								style={{
+									fontFamily: "Raleway",
+									fontStyle: "normal",
+									fontWeight: 600,
+									fontSize: "24px",
+									lineHeight: "28px",
+									color: "#585652",
+								}}
+							>
+								Course Videos
+							</span>
+						</div>
+						<div>
+							{course.video_set.map((obj, idx) => {
+								return (
+									<div key={idx} className='py-2'>
+										<CourseVideoCard  video={obj}/>
+									</div>
+								);
+							})}
+						</div>
+					</div>
+				)}
 			</div>
 		);
 	};
