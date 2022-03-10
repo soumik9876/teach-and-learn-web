@@ -9,6 +9,8 @@ import AuthLayout from "../components/layouts/authlayout";
 import AppLayout from "../components/layouts/applayout";
 import {useRouter} from "next/router";
 import {BreakpointCheck} from "../core/interfaces/globals";
+import {PersistStore, wrapper, PersistGate, RootState} from "../redux/store";
+import {useStore} from "react-redux";
 
 const Layout: React.FC = ({children}) => {
     const router = useRouter()
@@ -27,7 +29,8 @@ const Layout: React.FC = ({children}) => {
 }
 export const BreakpointContext = createContext<BreakpointCheck>({} as BreakpointCheck);
 
-export default function MyApp(props: AppProps) {
+function MyApp(props: AppProps) {
+    const store: PersistStore = useStore();
     const {Component, pageProps} = props;
     const isDesktopView = useMediaQuery(theme.breakpoints.up("lg"));
     const isTabletView = useMediaQuery(theme.breakpoints.only("md"));
@@ -52,14 +55,18 @@ export default function MyApp(props: AppProps) {
                 <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
             </Head>
             <ThemeProvider theme={theme}>
-                <BreakpointContext.Provider value={breakpoints}>
-                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                <CssBaseline/>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
-                </BreakpointContext.Provider>
+                <PersistGate persistor={store.__persistor} loading={<div>Loading...</div>}>
+                    <BreakpointContext.Provider value={breakpoints}>
+                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                        <CssBaseline/>
+                        <Layout>
+                            <Component {...pageProps} />
+                        </Layout>
+                    </BreakpointContext.Provider>
+                </PersistGate>
             </ThemeProvider>
         </React.Fragment>
     );
 }
+
+export default wrapper.withRedux(MyApp)

@@ -1,0 +1,3 @@
+export const GOOGLE_LOGIN_SUCCESS = "GOOGLE_LOGIN_SUCCESS"
+export const SERVER_LOGIN = "SERVER_LOGIN"
+export const SIGN_OUT = "SIGN_OUT"

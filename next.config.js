@@ -1,5 +1,6 @@
 module.exports = {
-    reactStrictMode: false,
+    reactStrictMode: true,
+    webpack5: true,
     presets: [
         "next/babel"
     ],
@@ -16,6 +17,7 @@ module.exports = {
             test: /\.svg$/,
             use: ["@svgr/webpack"],
         });
+        // config.resolve.fallback = { fs: false };
 
         return config;
     },
