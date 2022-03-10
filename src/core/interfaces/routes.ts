@@ -1,3 +1,6 @@
+const BASE_API_URL = "https://teach-and-learn-api.herokuapp.com/api";
+
+
 export const ROUTES = {
 	courses: "/courses",
 	createCourse: "/create-course",
