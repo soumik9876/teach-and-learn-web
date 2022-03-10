@@ -89,7 +89,7 @@ export default function CourseCard({ course }: any) {
 						}}
 					>
 						{course.teacher.map((obj, idx)=>{
-							console.log(obj)
+							console.log('teacher',obj)
 							return `${obj.user?.first_name ? obj.user?.first_name : 'Authority'} `
 						})}
 					</span>
