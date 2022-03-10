@@ -1,12 +1,32 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getRequest } from "../../core/fetchers";
+import { REST_API_ENDPOINTS, ROUTES } from "../../core/interfaces/routes";
+import { RootState } from "../../redux/store";
+import { debug_print } from "./../../core/utils";
 
 export default function IndividualCourse() {
+	const router = useRouter();
+	const { id } = router.query;
+	const server_token = useSelector((state: RootState) => state.auth.server_token);
+	const [course, setCourse] = useState(undefined);
+
+	useEffect(() => {
+		if (id != undefined) {
+			debug_print(id);
+			getRequest(REST_API_ENDPOINTS.course.v1.retrieve_course(id), server_token).then((result) => {
+				debug_print(result);
+				setCourse(result);
+			});
+		}
+	}, [id, server_token]);
+
 	const Chips = ({ svg, text }) => {
 		return (
 			<div className='flex space-x-4 items-center'>
 				<div>{svg}</div>
 				<div>
-					{" "}
 					<span
 						style={{
 							fontFamily: "Raleway",
@@ -28,7 +48,7 @@ export default function IndividualCourse() {
 	const Banner = () => {
 		return (
 			<div className='bg-c_primary_dark w-screen relative'>
-				<img className='w-screen h-[24rem] absolute bottom-0' src='/course_banner.png' alt='' />
+				<img className='w-screen h-[24rem] absolute bottom-0 z-5' src='/course_banner.png' alt='' />
 
 				<div className='flex w-full z-5 pb-[8rem]'>
 					<div className='flex-1 p-20'>
@@ -43,7 +63,7 @@ export default function IndividualCourse() {
 									color: "#FFFFFF",
 								}}
 							>
-								Complete NodeJS Developer in 2022 (GraphQL, MongoDB, + more)
+								{course.title}
 							</span>
 						</div>
 						<div className='py-4'>
@@ -57,8 +77,7 @@ export default function IndividualCourse() {
 									color: "#FFFFFF",
 								}}
 							>
-								Learn from real NodeJS experts! Includes REALLY Advanced NodeJS. Express, GraphQL, REST,
-								MongoDB, SQL, MERN + much more
+								{course.description}
 							</span>
 						</div>
 						<div className='flex space-x-3'>
@@ -139,12 +158,12 @@ export default function IndividualCourse() {
 										color: "#ffff",
 									}}
 								>
-									6,964 students
+									{course.student_list.length + 10} students
 								</span>
 							</div>
 						</div>
 
-						<div className='flex space-x-2 py-2'>
+						{/* <div className='flex space-x-2 py-2'>
 							<span
 								style={{
 									fontFamily: "Raleway",
@@ -169,7 +188,7 @@ export default function IndividualCourse() {
 							>
 								Soumik Roy, Saurav Paul
 							</span>
-						</div>
+						</div> */}
 						<div className='flex justify-between pt-2'>
 							<div className='flex-1'>
 								<Chips
@@ -257,7 +276,7 @@ export default function IndividualCourse() {
 												color: "#FFFFFF",
 											}}
 										>
-											Free
+											{course.price == 0 ? "Free" : `$ ${course.price}`}
 										</span>
 									</div>
 									<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
@@ -267,27 +286,30 @@ export default function IndividualCourse() {
 							</div>
 						</div>
 					</div>
-					<div className='flex-[.6] flex justify-center items-center -z-5'>
-						<img src='/nodeJs.png' alt='' className='rounded-2xl' />
+					<div className='flex-[.6] flex justify-center items-center'>
+						<img src={course.image_link} alt='' className='rounded-2xl w-[22rem] h-auto' />
 					</div>
 				</div>
 			</div>
 		);
 	};
 
-	const CourseVideoCard = () => {
+	const CourseVideoCard = ({video}:any) => {
 		return (
 			<div
-				className='w-full py-4 px-6 flex justify-between items-center'
+				className='w-full py-4 px-6 flex justify-between items-center cursor-pointer'
 				style={{
 					background: "#FFFFFF",
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
 				}}
+				onClick={()=>{
+					router.push(ROUTES.video(video.id)) ;
+				}}
 			>
 				<div className='flex space-x-6 items-center'>
 					<div className='w-3 h-3 bg-c_primary_dark rounded-full'></div>
-					<div>
+					<div className="truncate">
 						<span
 							style={{
 								fontFamily: "Raleway",
@@ -298,7 +320,7 @@ export default function IndividualCourse() {
 								color: "#585652",
 							}}
 						>
-							Course Outline
+							{video.title}
 						</span>
 					</div>
 				</div>
@@ -314,7 +336,7 @@ export default function IndividualCourse() {
 							color: "#585652",
 						}}
 					>
-						5.:30
+						{""}
 					</span>
 				</div>
 			</div>
@@ -324,41 +346,48 @@ export default function IndividualCourse() {
 	const CourseVideos = () => {
 		return (
 			<div>
-				<div className='mb-2'>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							color: "#585652",
-						}}
-					>
-						Course Videos
-					</span>
-				</div>
-				<div>
-					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
-						return (
-							<div key={idx} className='py-2'>
-								<CourseVideoCard />
-							</div>
-						);
-					})}
-				</div>
+				{course.video_set.length !== 0 && (
+					<div>
+						<div className='mb-2'>
+							<span
+								style={{
+									fontFamily: "Raleway",
+									fontStyle: "normal",
+									fontWeight: 600,
+									fontSize: "24px",
+									lineHeight: "28px",
+									color: "#585652",
+								}}
+							>
+								Course Videos
+							</span>
+						</div>
+						<div>
+							{course.video_set.map((obj, idx) => {
+								return (
+									<div key={idx} className='py-2'>
+										<CourseVideoCard  video={obj}/>
+									</div>
+								);
+							})}
+						</div>
+					</div>
+				)}
 			</div>
 		);
 	};
 
-	const CourseArticleCard = () => {
+	const CourseArticleCard = ({article}) => {
 		return (
 			<div
-				className='w-full py-4 px-6 flex items-center'
+				className='w-full py-4 px-6 flex items-center cursor-pointer'
 				style={{
 					background: "#FFFFFF",
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
+				}}
+				onClick={() => {
+					router.push(ROUTES.article(article.id));
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -374,7 +403,7 @@ export default function IndividualCourse() {
 								color: "#585652",
 							}}
 						>
-							Course Outline
+							{article.title}
 						</span>
 					</div>
 				</div>
@@ -385,41 +414,46 @@ export default function IndividualCourse() {
 	const CourseArticles = () => {
 		return (
 			<div>
-				<div className='mb-2'>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							color: "#585652",
-						}}
-					>
-						Course Articles
-					</span>
-				</div>
-				<div>
-					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
-						return (
-							<div key={idx} className='py-2'>
-								<CourseArticleCard />
-							</div>
-						);
-					})}
-				</div>
+				{course.blog_set.length !== 0 && <div>
+					<div className='mb-2'>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 600,
+								fontSize: "24px",
+								lineHeight: "28px",
+								color: "#585652",
+							}}
+						>
+							Course Articles
+						</span>
+					</div>
+					<div>
+						{course.blog_set.map((obj, idx) => {
+							return (
+								<div key={idx} className='py-2'>
+									<CourseArticleCard article={obj}/>
+								</div>
+							);
+						})}
+					</div>
+				</div>}
 			</div>
 		);
 	};
 
-	const CourseQuizCard = () => {
+	const CourseQuizCard = ({quiz}) => {
 		return (
 			<div
-				className='w-full py-4 px-6 flex justify-between items-center'
+				className='w-full py-4 px-6 flex justify-between items-center cursor-pointer'
 				style={{
 					background: "#FFFFFF",
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
+				}}
+				onClick={()=>{
+					router.push(ROUTES.quiz(quiz.id)) ;
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -435,7 +469,7 @@ export default function IndividualCourse() {
 								color: "#585652",
 							}}
 						>
-							Course Outline
+							{quiz.title}
 						</span>
 					</div>
 				</div>
@@ -451,7 +485,7 @@ export default function IndividualCourse() {
 							color: "#585652",
 						}}
 					>
-						20 Questions
+						{""}
 					</span>
 				</div>
 			</div>
@@ -461,51 +495,57 @@ export default function IndividualCourse() {
 	const CourseQuizes = () => {
 		return (
 			<div>
-				<div className='mb-2'>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							color: "#585652",
-						}}
-					>
-						Course Quizes
-					</span>
-				</div>
-				<div>
-					{[1, 2, 3, 4, 5, 6].map((obj, idx) => {
-						return (
-							<div key={idx} className='py-2'>
-								<CourseQuizCard />
-							</div>
-						);
-					})}
-				</div>
+				{course.quiz_set.length !== 0 && <div>
+					<div className='mb-2'>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 600,
+								fontSize: "24px",
+								lineHeight: "28px",
+								color: "#585652",
+							}}
+						>
+							Course Quizes
+						</span>
+					</div>
+					<div>
+						{course.quiz_set.map((obj, idx) => {
+							return (
+								<div key={idx} className='py-2'>
+									<CourseQuizCard quiz={obj}/>
+								</div>
+							);
+						})}
+					</div>
+				</div>}
 			</div>
 		);
 	};
 
 	return (
 		<div className='w-screen bg-c_background bg-cover'>
-			<div>
-				<Banner />
-			</div>
-			<div className='w-full  flex justify-center py-8'>
-				<div className='w-[75%] pb-22'>
-					<div className='py-4'>
-						<CourseVideos />
+			{course && (
+				<div>
+					<div>
+						<Banner />
 					</div>
-					<div className='py-4'>
-						<CourseArticles />
-					</div>
-					<div className='py-4'>
-						<CourseQuizes />
+					<div className='w-full  flex justify-center py-8'>
+						<div className='w-[75%] pb-22'>
+							<div className='py-4'>
+								<CourseVideos />
+							</div>
+							<div className='py-4'>
+								<CourseArticles />
+							</div>
+							<div className='py-4'>
+								<CourseQuizes />
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }
