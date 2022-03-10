@@ -15,6 +15,8 @@ import useStyles from "./create-course.styles";
 import {useState} from "react";
 import {Add} from "@mui/icons-material";
 import AddVideoDialog from "../dialogs/add-video";
+import AddArticleDialog from "../dialogs/add-article";
+import AddQuizDialog from "../dialogs/add-quiz";
 
 const CreateCourseRoot = () => {
     const classes = useStyles();
@@ -25,6 +27,8 @@ const CreateCourseRoot = () => {
     return (
         <>
             <AddVideoDialog open={showAddVideoDialog} setOpen={setShowAddVideoDialog}/>
+            <AddArticleDialog open={showAddArticleDialog} setOpen={setShowAddArticleDialog}/>
+            <AddQuizDialog open={showAddQuizDialog} setOpen={setShowAddQuizDialog}/>
             <Box p={15} sx={{height: "80vh"}}>
                 <Grid container sx={{height: "100%"}}>
                     <Grid item xs={8} container justifyContent={"center"} alignItems={"center"}>
@@ -81,7 +85,8 @@ const CreateCourseRoot = () => {
                                             <Grid item xs={4} container justifyContent={"center"}>
                                                 <Grid item xs={12} container justifyContent={"center"}>
                                                     <Button variant={"contained"}
-                                                            className={"bg-c_primary_main p-5 mb-1"}>
+                                                            className={"bg-c_primary_main p-5 mb-1"}
+                                                            onClick={() => setShowAddArticleDialog(true)}>
                                                         <Add/>
                                                     </Button>
                                                 </Grid>
@@ -90,7 +95,8 @@ const CreateCourseRoot = () => {
                                             <Grid item xs={4} container justifyContent={"center"}>
                                                 <Grid item xs={12} container justifyContent={"center"}>
                                                     <Button variant={"contained"}
-                                                            className={"bg-c_primary_main p-5 mb-1"}>
+                                                            className={"bg-c_primary_main p-5 mb-1"}
+                                                            onClick={()=> setShowAddQuizDialog(true)}>
                                                         <Add/>
                                                     </Button>
                                                 </Grid>
