@@ -1,12 +1,32 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getRequest } from "../../core/fetchers";
+import { REST_API_ENDPOINTS } from "../../core/interfaces/routes";
+import { RootState } from "../../redux/store";
+import { debug_print } from "./../../core/utils";
 
 export default function IndividualCourse() {
+	const router = useRouter();
+	const { id } = router.query;
+	const server_token = useSelector((state: RootState) => state.auth.server_token);
+	const [course, setCourse] = useState(undefined);
+
+	useEffect(() => {
+		if (id != undefined) {
+			debug_print(id);
+			getRequest(REST_API_ENDPOINTS.course.v1.retrieve_course(id), server_token).then((result) => {
+				debug_print(result);
+				setCourse(result);
+			});
+		}
+	}, [id, server_token]);
+
 	const Chips = ({ svg, text }) => {
 		return (
 			<div className='flex space-x-4 items-center'>
 				<div>{svg}</div>
 				<div>
-					{" "}
 					<span
 						style={{
 							fontFamily: "Raleway",
@@ -43,7 +63,7 @@ export default function IndividualCourse() {
 									color: "#FFFFFF",
 								}}
 							>
-								Complete NodeJS Developer in 2022 (GraphQL, MongoDB, + more)
+								{course.title}
 							</span>
 						</div>
 						<div className='py-4'>
@@ -57,8 +77,7 @@ export default function IndividualCourse() {
 									color: "#FFFFFF",
 								}}
 							>
-								Learn from real NodeJS experts! Includes REALLY Advanced NodeJS. Express, GraphQL, REST,
-								MongoDB, SQL, MERN + much more
+								{course.description}
 							</span>
 						</div>
 						<div className='flex space-x-3'>
@@ -139,12 +158,12 @@ export default function IndividualCourse() {
 										color: "#ffff",
 									}}
 								>
-									6,964 students
+									{course.student_list.length + 10} students
 								</span>
 							</div>
 						</div>
 
-						<div className='flex space-x-2 py-2'>
+						{/* <div className='flex space-x-2 py-2'>
 							<span
 								style={{
 									fontFamily: "Raleway",
@@ -169,7 +188,7 @@ export default function IndividualCourse() {
 							>
 								Soumik Roy, Saurav Paul
 							</span>
-						</div>
+						</div> */}
 						<div className='flex justify-between pt-2'>
 							<div className='flex-1'>
 								<Chips
@@ -257,7 +276,7 @@ export default function IndividualCourse() {
 												color: "#FFFFFF",
 											}}
 										>
-											Free
+											{course.price == 0 ? "Free" : course.price}
 										</span>
 									</div>
 									<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
@@ -268,7 +287,7 @@ export default function IndividualCourse() {
 						</div>
 					</div>
 					<div className='flex-[.6] flex justify-center items-center -z-5'>
-						<img src='/nodeJs.png' alt='' className='rounded-2xl' />
+						<img src={course.image_link} alt='' className='rounded-2xl w-[22rem] h-auto' />
 					</div>
 				</div>
 			</div>
@@ -490,22 +509,26 @@ export default function IndividualCourse() {
 
 	return (
 		<div className='w-screen bg-c_background bg-cover'>
-			<div>
-				<Banner />
-			</div>
-			<div className='w-full  flex justify-center py-8'>
-				<div className='w-[75%] pb-22'>
-					<div className='py-4'>
-						<CourseVideos />
+			{course && (
+				<div>
+					<div>
+						<Banner />
 					</div>
-					<div className='py-4'>
-						<CourseArticles />
-					</div>
-					<div className='py-4'>
-						<CourseQuizes />
+					<div className='w-full  flex justify-center py-8'>
+						<div className='w-[75%] pb-22'>
+							<div className='py-4'>
+								<CourseVideos />
+							</div>
+							<div className='py-4'>
+								<CourseArticles />
+							</div>
+							<div className='py-4'>
+								<CourseQuizes />
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }
