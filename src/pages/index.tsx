@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import CourseCard from "../components/cards/course-card/CourseCard";
+import { getRequest } from "../core/fetchers";
+import { REST_API_ENDPOINTS } from "../core/interfaces/routes";
+import { RootState } from "../redux/store";
+import { debug_print } from "./../core/utils";
 
-export default function IndividualCourse() {
+export default function Home() {
+	const server_token = useSelector((state: RootState) => state.auth.server_token);
+	const [courses, setCourses] = useState([]);
+	const [categories, setCategories] = useState([]);
+
+	useEffect(() => {
+		getRequest(REST_API_ENDPOINTS.course.v1.course, server_token).then((result) => {
+			setCourses(result);
+			const temp = result.map((course, idx) => {
+				return course.category?.title;
+			});
+			const unique = temp.filter((v, i, a) => a.indexOf(v) === i);
+			setCategories(unique);
+			console.log(unique);
+		});
+	}, [server_token]);
+
 	const Banner = () => {
 		return (
 			<div className='w-full flex bg-c_primary_light rounded-[22px]'>
@@ -57,8 +78,7 @@ export default function IndividualCourse() {
 		);
 	};
 
-
-	const WebDevCourses = () => {
+	const Courses = ({ cat_name }: any) => {
 		return (
 			<div className='pt-12'>
 				<div>
@@ -73,95 +93,21 @@ export default function IndividualCourse() {
 							color: "#585652",
 						}}
 					>
-						Popular Courses in Web development
+						Popular Courses in {cat_name}
 					</span>
 				</div>
 				<div className='grid grid-cols-3'>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-				</div>
-			</div>
-		);
-	};
-
-	const DesigningCourses = () => {
-		return (
-			<div className='pt-12'>
-				<div>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							textDecorationLine: "underline",
-							color: "#585652",
-						}}
-					>
-						Popular Courses in Designing
-					</span>
-				</div>
-				<div className='grid grid-cols-3'>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-				</div>
-			</div>
-		);
-	};
-
-	const MLCourses = () => {
-		return (
-			<div className='pt-12'>
-				<div>
-					<span
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: 600,
-							fontSize: "24px",
-							lineHeight: "28px",
-							textDecorationLine: "underline",
-							color: "#585652",
-						}}
-					>
-						Popular Courses in Machine Learning
-					</span>
-				</div>
-				<div className='grid grid-cols-3'>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					<div className='col-span-1 pt-6'>
-						<CourseCard />
-					</div>
-					
+					{courses.map((course, idx) => {
+						console.log(course);
+						if (course.category?.title === cat_name) {
+							return (
+								<div className='col-span-1 pt-6'>
+									<CourseCard course={course} />
+								</div>
+							);
+						}
+						return "";
+					})}
 				</div>
 			</div>
 		);
@@ -171,9 +117,16 @@ export default function IndividualCourse() {
 		<div className='w-screen bg-c_background bg-cover flex justify-center py-8'>
 			<div className='w-[75%] pb-22'>
 				<Banner />
-				<WebDevCourses />
-				<DesigningCourses />
-				<MLCourses />
+				{categories.map((cat, idx) => {
+					return (
+						<div key={idx}>
+							<Courses cat_name={cat} />
+						</div>
+					);
+				})}
+
+				{/* <DesigningCourses />
+				<MLCourses /> */}
 			</div>
 		</div>
 	);

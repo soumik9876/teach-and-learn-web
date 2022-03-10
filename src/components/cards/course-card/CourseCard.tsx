@@ -64,7 +64,7 @@ export default function CourseCard({ course }: any) {
 						</span>
 					</div>
 				</div>
-				<div className='pt-2 px-4'>
+				<div className='pt-2 px-4 truncate'>
 					<span
 						style={{
 							fontFamily: "Raleway",
@@ -90,7 +90,7 @@ export default function CourseCard({ course }: any) {
 					>
 						{course.teacher.map((obj, idx)=>{
 							console.log(obj)
-							return `${obj.user.first_name ? obj.user.first_name : 'Authority'} `
+							return `${obj.user?.first_name ? obj.user?.first_name : 'Authority'} `
 						})}
 					</span>
 				</div>
