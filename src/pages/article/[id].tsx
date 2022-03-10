@@ -1,15 +1,26 @@
-import { Breadcrumbs, Typography } from "@mui/material";
-import Link from "next/link";
-import React from "react";
+import {Breadcrumbs, Link, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ArticleCard from "../../components/article/ArticleCard";
+import {Simulate} from "react-dom/test-utils";
+import input = Simulate.input;
+import {getRequest} from "../../core/fetchers";
+import {REST_API_ENDPOINTS} from "../../core/interfaces/routes";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {debug_print} from "../../core/utils";
+import {useRouter} from "next/router";
 
 function handleClick(event) {
 	event.preventDefault();
 	console.info("You clicked a breadcrumb.");
 }
 
-export default function VideoWatch() {
+export default function ArticlePage() {
+	const router = useRouter();
+	const [article, setArticle] = useState<any>({});
+	const [articleList, setArticleList] = useState([]);
+	const serverToken = useSelector((state:RootState)=> state.auth.server_token);
 	const breadcrumbs = [
 		<Link underline='hover' key='1' color='inherit' href='/' onClick={handleClick}>
 			Next JS
@@ -18,32 +29,34 @@ export default function VideoWatch() {
 			Lesson 1.0
 		</Typography>,
 	];
+	useEffect(() => {
+		const {id} = router.query;
+		getRequest(`${REST_API_ENDPOINTS.course.v1.blog}${id}/`,serverToken).then((response)=> {
+			debug_print(response)
+			setArticle(response)
+			getRequest(`${REST_API_ENDPOINTS.course.v1.course}${response.course}/`,serverToken).then((response)=> {
+				setArticleList(response.blog_set)
+			})
+		})
+
+	}, [router.query]);
+
 	const Article = () => {
 		return (
 			<div>
 				<img
-					src='https://res.cloudinary.com/practicaldev/image/fetch/s--0ca-E1mS--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xedb93rflxd23rgft0y2.jpeg'
+					src={`${article?.banner_link}`}
 					alt=''
 					className='h-[300px] w-full object-cover'
 				/>
 				<div className='px-8'>
-					<div className='text-4xl font-medium text-black mt-8'>Introduction to Next Js</div>
+					<div className='text-4xl font-medium text-black mt-8'>{article.title}</div>
 					<div className='flex justify-between mt-2'>
 						<div>Next Js Course</div>
 						<div>3rd March, 2022</div>
 					</div>
 					<div className='mt-10 pb-10'>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas
-						vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum
-						quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident
-						similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut
-						molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit
-						sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid.
-						Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos
-						sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias
-						error harum maxime adipisci amet laborum. Perspiciatis minima nesciunt dolorem! Officiis
-						iure rerum voluptates a cumque velit quibusdam sed amet tempora. Sit laborum ab, eius
-						fugit doloribus tenetur .
+						{article?.content}
 					</div>
 				</div>
 			</div>
@@ -71,9 +84,9 @@ export default function VideoWatch() {
 					<div className='text-lg font-medium mb-2'>More Articles</div>
 					<hr />
 					<div className='mt-3'>
-						<ArticleCard></ArticleCard>
-						<ArticleCard></ArticleCard>
-						<ArticleCard></ArticleCard>
+						{articleList.map((item,index)=> (
+							<ArticleCard key={index} article={item}/>
+						))}
 					</div>
 				</div>
 			</div>
