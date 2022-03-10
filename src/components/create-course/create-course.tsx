@@ -51,15 +51,15 @@ const CreateCourseRoot = () => {
                                 </Stepper>
                                 {activeStep == 0 ? (
                                     <>
-                                        <TextField label={"title"} fullWidth/>
-                                        <TextField label={"description"} fullWidth sx={{my: 1}} multiline rows={4}/>
+                                        <TextField label={"Title"} fullWidth/>
+                                        <TextField label={"Description"} fullWidth sx={{my: 1}} multiline rows={4}/>
                                         <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                                            <InputLabel id="demo-simple-select-label">Category</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 // value={}
-                                                label="Age"
+                                                label="Category"
                                                 // onChange={handleChange}
                                             >
                                                 <MenuItem value={10}>Ten</MenuItem>

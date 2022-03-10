@@ -1,5 +1,15 @@
 import AlertDialogSlide from "./alertDialogSlide";
-import {Button, Checkbox, Grid, TextField, Typography} from "@mui/material";
+import {
+    Button,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    Grid,
+    Radio,
+    RadioGroup,
+    TextField,
+    Typography
+} from "@mui/material";
 import OptionIcon from "../../assets/option_icon.svg"
 import CorrectOptionIcon from "../../assets/correct-option.svg"
 
@@ -26,30 +36,20 @@ const AddQuizDialog = ({open, setOpen}) => {
                                 1. What is the purpose of serializer?
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} container alignItems={"center"} spacing={2} className={"ml-5 mb-2"}>
-                            <OptionIcon/>
-                            <Typography className={"ml-2 mt-1"} gutterBottom>
-                                to filter queryset
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} container alignItems={"center"} spacing={2} className={"ml-5 mb-2"}>
-                            <OptionIcon/>
-                            <Typography className={"ml-2 mt-1"} gutterBottom>
-                                to return response
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} container alignItems={"center"} spacing={2} className={"ml-5 mb-2"}>
-                            <CorrectOptionIcon/>
-                            <Typography className={"ml-2 mt-1"} gutterBottom>
-                                to convert model objects to native python data structure
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} container alignItems={"center"} spacing={2} className={"ml-5 mb-2"}>
-                            <OptionIcon/>
-                            <Typography className={"ml-2 mt-1"} gutterBottom>
-                                to make api faster
-                            </Typography>
-                        </Grid>
+                        <FormControl>
+                            <RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                defaultValue="to return response"
+                                value={"to return response"}
+                                name="radio-buttons-group"
+
+                            >
+                                <FormControlLabel value="to filter queryset" control={<Radio />} label="to filter queryset" />
+                                <FormControlLabel value="to return response" control={<Radio />} label="to return response" />
+                                <FormControlLabel value="to convert model objects to native python data structure" control={<Radio />} label="to convert model objects to native python data structure" />
+                                <FormControlLabel value="to make api faster" control={<Radio />} label="to make api faster" />
+                            </RadioGroup>
+                        </FormControl>
 
                     </Grid>
                     <Grid container>
