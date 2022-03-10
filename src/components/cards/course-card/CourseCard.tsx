@@ -1,14 +1,13 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { ROUTES } from './../../../core/interfaces/routes';
+import { ROUTES } from "./../../../core/interfaces/routes";
 
-export default function CourseCard() {
+export default function CourseCard({ course }: any) {
+	const router = useRouter();
 
-	const router = useRouter()
-
-	const gotoCourseDetails = ()=>{
-		router.push(ROUTES.course(5))
-	}
+	const gotoCourseDetails = () => {
+		router.push(ROUTES.course(course.id));
+	};
 	return (
 		<div onClick={gotoCourseDetails} className='px-4 py-2 duration-150 hover:scale-105 cursor-pointer'>
 			<div
@@ -24,8 +23,9 @@ export default function CourseCard() {
 						style={{
 							borderTopLeftRadius: "16px",
 							borderTopRightRadius: "16px",
+							borderBottom: "1px solid #C4C4C4",
 						}}
-						src='./nodeJs.png'
+						src={course.image_link}
 						alt=''
 						className='w-full h-56'
 					/>
@@ -45,7 +45,7 @@ export default function CourseCard() {
 									color: "#000000",
 								}}
 							>
-								Web development
+								{course.category.title}
 							</span>
 						</div>
 					</div>
@@ -60,7 +60,7 @@ export default function CourseCard() {
 								color: "#000000",
 							}}
 						>
-							$11.50
+							{course.price == 0 ? "Free" : `$${course.price}`}
 						</span>
 					</div>
 				</div>
@@ -75,7 +75,7 @@ export default function CourseCard() {
 							color: "#585652",
 						}}
 					>
-						Complete nodejs developer guide in 2022
+						{course.title}
 					</span>
 				</div>
 				<div className='pt-1 px-4'>
@@ -88,7 +88,10 @@ export default function CourseCard() {
 							color: "#585652",
 						}}
 					>
-						Saurav Paul
+						{course.teacher.map((obj, idx)=>{
+							console.log(obj)
+							return `${obj.user.first_name ? obj.user.first_name : 'Authority'} `
+						})}
 					</span>
 				</div>
 
