@@ -1,8 +1,16 @@
+import { useRouter } from "next/router";
 import React from "react";
+import { ROUTES } from './../../../core/interfaces/routes';
 
 export default function CourseCard() {
+
+	const router = useRouter()
+
+	const gotoCourseDetails = ()=>{
+		router.push(ROUTES.course(5))
+	}
 	return (
-		<div className='px-4 py-2 duration-150 hover:scale-105'>
+		<div onClick={gotoCourseDetails} className='px-4 py-2 duration-150 hover:scale-105 cursor-pointer'>
 			<div
 				className='pb-4'
 				style={{
