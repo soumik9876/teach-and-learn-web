@@ -64,6 +64,105 @@ export default function VideoWatch() {
 		);
 	};
 
+	const Comment = () => {
+		return (
+			<div className='flex space-x-6'>
+				<div className='w-12 h-12 bg-pink-300'></div>
+				<div className='flex-1'>
+					<div>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: "normal",
+								fontSize: "14px",
+								lineHeight: "16px",
+								color: "#000000",
+							}}
+						>
+							Saurav Paul
+						</span>
+					</div>
+					<div>
+						<p
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: "normal",
+								fontSize: "14px",
+								lineHeight: "16px",
+								color: "#585652",
+							}}
+						>
+							Does next js take less time to build than react ?
+						</p>
+					</div>
+				</div>
+			</div>
+		);
+	};
+
+	const CommentCard = () => {
+		return (
+			<div
+				style={{
+					background: "#FFFFFF",
+					boxShadow: "0px 1px 23px rgba(176, 163, 163, 0.25)",
+					borderRadius: "8px",
+				}}
+				className='pb-4 px-2'
+			>
+				<div className='w-full flex space-x-3 pr-6 py-2 items-center'>
+					<div className='py-1 px-8'>
+						<span
+							style={{
+								fontFamily: "Raleway",
+								fontStyle: "normal",
+								fontWeight: 600,
+								fontSize: "16px",
+								textAlign: "center",
+								color: "#000000",
+							}}
+						>
+							Comments
+						</span>
+					</div>
+					<div className='flex justify-center items-center w-6 h-6 rounded-md bg-c_secondary_main text-white'>
+						<span>3</span>
+					</div>
+				</div>
+				<div className='mb-8' style={{ border: "1px solid #C4C4C4" }}></div>
+				<div
+					style={{
+						background: "#FFFFFF",
+						border: "1px solid #C4C4C4",
+						boxSizing: "border-box",
+						borderRadius: "9px",
+					}}
+					className='flex my-4 items-center px-3 mx-3'
+				>
+					<textarea className='flex-1 border-0 w-full transition duration-500 placeholder-red-400 focus:placeholder-transparent p-2  text-c_text bg-transparent rounded-md focus:outline-none ' />
+					<div>
+						<svg width='21' height='18' viewBox='0 0 21 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+							<path d='M0 18L21 9L0 0V7L15 9L0 11V18Z' fill='#C4C4C4' />
+						</svg>
+					</div>
+				</div>
+				<div className='my-4 mx-3'>
+					<div className="my-3">
+						<Comment />
+					</div>
+					<div className="my-3">
+						<Comment />
+					</div>
+					<div className="my-3">
+						<Comment />
+					</div>
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<div className='w-screen bg-c_background flex py-8 space-x-8'>
 			<div className='pl-28'>
@@ -136,6 +235,11 @@ export default function VideoWatch() {
 				<div className='pt-8'>
 					<div>
 						<NoteCard />
+					</div>
+				</div>
+				<div className='pt-8'>
+					<div>
+						<CommentCard />
 					</div>
 				</div>
 			</div>
