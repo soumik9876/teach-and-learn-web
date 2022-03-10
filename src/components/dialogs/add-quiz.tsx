@@ -13,7 +13,7 @@ import {
 import OptionIcon from "../../assets/option_icon.svg"
 import CorrectOptionIcon from "../../assets/correct-option.svg"
 
-const AddQuizDialog = ({open, setOpen}) => {
+const AddQuizDialog = ({open, setOpen, courseId}) => {
     return (
         <>
             <AlertDialogSlide open={open} setOpen={setOpen}>

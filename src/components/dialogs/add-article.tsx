@@ -1,7 +1,7 @@
 import AlertDialogSlide from "./alertDialogSlide";
 import {Button, Grid, TextField, Typography} from "@mui/material";
 
-const AddArticleDialog = ({open, setOpen}) => {
+const AddArticleDialog = ({open, setOpen, courseId}) => {
     return (
         <>
             <AlertDialogSlide open={open} setOpen={setOpen}>

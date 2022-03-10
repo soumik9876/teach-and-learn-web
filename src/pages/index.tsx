@@ -117,7 +117,7 @@ export default function Home() {
 		<div className='w-screen bg-c_background bg-cover flex justify-center py-8'>
 			<div className='w-[75%] pb-22'>
 				<Banner />
-				{categories.map((cat, idx) => {
+				{categories?.map((cat, idx) => {
 					return (
 						<div key={idx}>
 							<Courses cat_name={cat} />

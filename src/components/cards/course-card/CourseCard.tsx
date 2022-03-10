@@ -88,7 +88,7 @@ export default function CourseCard({ course }: any) {
 							color: "#585652",
 						}}
 					>
-						{course.teacher.map((obj, idx)=>{
+						{course?.teacher_list.map((obj, idx)=>{
 							console.log('teacher',obj)
 							return `${obj.user?.first_name ? obj.user?.first_name : 'Authority'} `
 						})}

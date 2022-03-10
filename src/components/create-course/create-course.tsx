@@ -40,6 +40,7 @@ const CreateCourseRoot = () => {
     const [price, setPrice] = useState(0);
     const [categories, setCategories] = useState([]);
     const [imageLink, setImageLink] = useState("");
+    const [createdCourse, setCreatedCourse] = useState(null);
     useEffect(() => {
         getRequest(REST_API_ENDPOINTS.course.v1.category, serverToken).then((response) => {
             setCategories(response);
@@ -57,21 +58,21 @@ const CreateCourseRoot = () => {
             description: description,
             category: category,
             price: price,
-            teacher: [userProfile.teacher.id],
+            teacher: [userProfile.teacher],
             image_link: imageLink
         }
         debug_print(body)
         postRequest(REST_API_ENDPOINTS.course.v1.course, body, serverToken).then((response) => {
-            debug_print(response)
+            setCreatedCourse(response)
         })
         setActiveStep(1);
     }
     debug_print(categories)
     return (
         <>
-            <AddVideoDialog open={showAddVideoDialog} setOpen={setShowAddVideoDialog}/>
-            <AddArticleDialog open={showAddArticleDialog} setOpen={setShowAddArticleDialog}/>
-            <AddQuizDialog open={showAddQuizDialog} setOpen={setShowAddQuizDialog}/>
+            <AddVideoDialog open={showAddVideoDialog} setOpen={setShowAddVideoDialog} courseId={createdCourse?.id}/>
+            <AddArticleDialog open={showAddArticleDialog} setOpen={setShowAddArticleDialog} courseId={createdCourse?.id}/>
+            <AddQuizDialog open={showAddQuizDialog} setOpen={setShowAddQuizDialog} courseId={createdCourse?.id}/>
             <Box p={15} sx={{height: "80vh"}}>
                 <Grid container sx={{height: "100%"}}>
                     <Grid item xs={8} container justifyContent={"center"} alignItems={"center"}>
