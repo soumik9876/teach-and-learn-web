@@ -11,6 +11,7 @@ import {ROUTES} from "../../core/interfaces/routes";
 import GoogleIcon from '@mui/icons-material/Google';
 import {debug_print} from "../../core/utils";
 import Link from "next/link"
+import GoogleLoginButton from "./google-login";
 
 const TopBar = () => {
     const classes = useStyles();
@@ -102,10 +103,7 @@ const TopBar = () => {
                         </Grid>}
 
                         {/*<IconButton className={"bg-c_inactive_text"}><GoogleIcon/></IconButton>*/}
-                        <Button startIcon={<GoogleIcon/>} variant={"contained"} sx={{
-                            bgcolor: `${theme.palette.primary.main}!important`,
-                            color: `${theme.palette.text.primary}!important`
-                        }}>Login</Button>
+                        <GoogleLoginButton/>
                     </Toolbar>
                 </AppBar>
             </Box>
