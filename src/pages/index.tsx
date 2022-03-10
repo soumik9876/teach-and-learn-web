@@ -19,7 +19,7 @@ export default function Home() {
 			});
 			const unique = temp.filter((v, i, a) => a.indexOf(v) === i);
 			setCategories(unique);
-			console.log(unique);
+			console.log("unique", unique);
 		});
 	}, [server_token]);
 
@@ -79,6 +79,7 @@ export default function Home() {
 	};
 
 	const Courses = ({ cat_name }: any) => {
+		if (cat_name == null) return <></>;
 		return (
 			<div className='pt-12'>
 				<div>
