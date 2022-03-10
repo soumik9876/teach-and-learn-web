@@ -45,7 +45,7 @@ export default function CourseCard({ course }: any) {
 									color: "#000000",
 								}}
 							>
-								{course.category.title}
+								{course?.category?.title}
 							</span>
 						</div>
 					</div>

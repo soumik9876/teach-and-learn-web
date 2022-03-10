@@ -6,7 +6,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {postRequest} from "../../core/fetchers";
 import {REST_API_ENDPOINTS} from "../../core/interfaces/routes";
-import {debug} from "util";
 
 const AddVideoDialog = ({open, setOpen, courseId}) => {
     const user = useSelector((state: RootState) => state.auth.userProfile)
