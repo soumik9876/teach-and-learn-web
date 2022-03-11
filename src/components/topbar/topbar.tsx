@@ -7,6 +7,8 @@ import {
 	Grid,
 	IconButton,
 	InputBase,
+	Menu,
+	MenuItem,
 	Paper,
 	Toolbar,
 	Typography,
@@ -14,18 +16,19 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import theme from "../../site-settings/material-ui-theme/theme";
 import { BreakpointContext } from "../../pages/_app";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import useStyles from "./topbar.styles";
 import { useRouter } from "next/router";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { ROUTES } from "../../core/interfaces/routes";
+import { REST_API_ENDPOINTS, ROUTES } from "../../core/interfaces/routes";
 import GoogleIcon from "@mui/icons-material/Google";
 import { debug_print } from "../../core/utils";
 import Link from "next/link";
 import GoogleLoginButton from "./google-login";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { getRequest } from "../../core/fetchers";
 
 const TopBar = () => {
 	const classes = useStyles();
@@ -33,17 +36,47 @@ const TopBar = () => {
 	const breakpoints = useContext(BreakpointContext);
 	const navClass = (href: string) => (router.pathname == href ? classes.drawerActive : "");
 	const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+	const serverToken = useSelector((state: RootState) => state.auth.server_token);
 	const userProfile = useSelector((state: RootState) => state.auth.userProfile);
-	const [searchText, setSearchText] = useState("");
-
-	const handleSearchTextChange = ({ target }: any) => {
-		debug_print({ target });
-		setSearchText(target.value);
-		debug_print(searchText);
+	const [categories, setCategories] = useState([]);
+	const [anchorEl, setAnchorEl] = useState(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
 	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+	useEffect(() => {
+		getRequest(REST_API_ENDPOINTS.course.v1.category, serverToken).then((response) => {
+			debug_print(response);
+			setCategories(response);
+		});
+	}, []);
 
 	return (
 		<>
+			<Menu
+				id='basic-menu'
+				anchorEl={anchorEl}
+				open={open}
+				onClose={handleClose}
+				MenuListProps={{
+					"aria-labelledby": "basic-button",
+				}}
+			>
+				{categories.map((item, index) => (
+					<MenuItem
+						key={index}
+						onClick={() => {
+							router.push(`${ROUTES.category}${item.id}`).then();
+							handleClose();
+						}}
+					>
+						{item.title}
+					</MenuItem>
+				))}
+			</Menu>
 			<Box sx={{ flexGrow: 1 }}>
 				<AppBar
 					position='static'
@@ -106,8 +139,6 @@ const TopBar = () => {
 											className={"text-xs"}
 											placeholder='Search for courses'
 											inputProps={{ "aria-label": "search google maps" }}
-											value={searchText}
-											onChange={handleSearchTextChange}
 										/>
 									</Paper>
 								</Grid>
@@ -119,7 +150,17 @@ const TopBar = () => {
 										<Link href={ROUTES.courses} passHref>
 											<Button className={navClass(ROUTES.courses)}>Courses</Button>
 										</Link>
-										<Button endIcon={<KeyboardArrowDownIcon />}>Categories</Button>
+										<Button
+											endIcon={<KeyboardArrowDownIcon />}
+											id='basic-button'
+											aria-controls={open ? "basic-menu" : undefined}
+											aria-haspopup='true'
+											aria-expanded={open ? "true" : undefined}
+											onClick={handleClick}
+										>
+											Categories
+										</Button>
+
 										<Link href={ROUTES.createCourse} passHref>
 											<Button className={navClass(ROUTES.createCourse)}>Teach</Button>
 										</Link>

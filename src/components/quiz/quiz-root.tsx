@@ -7,7 +7,7 @@ import {Simulate} from "react-dom/test-utils";
 import input = Simulate.input;
 import {useRouter} from "next/router";
 import {getRequest, postRequest} from "../../core/fetchers";
-import {REST_API_ENDPOINTS} from "../../core/interfaces/routes";
+import {REST_API_ENDPOINTS, ROUTES} from "../../core/interfaces/routes";
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import {debug_print} from "../../core/utils";
@@ -33,6 +33,7 @@ const QuizRoot = () => {
         }
         postRequest(REST_API_ENDPOINTS.quiz.v1.quizResult,body,serverToken).then((response)=> {
             debug_print(response);
+            router.replace(`${ROUTES.quizResult}${response.id}`).then();
         })
     }
     useEffect(() => {
