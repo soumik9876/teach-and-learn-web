@@ -9,6 +9,11 @@ export const REST_API_ENDPOINTS = {
 	course: {
 		v1: {
 			course: BASE_API_URL + "course/v1/course/",
+			course_search : (search_text : any = undefined) =>{
+				let url = BASE_API_URL + "course/v1/course/" ;
+				if(search_text) url += `?search_text=${search_text}`;
+				return url;
+			},
 			retrieve_course: (id: any) => BASE_API_URL + `course/v1/course/${id}`,
 			retrieve_video:(id:any) => BASE_API_URL + `course/v1/video/${id}`,
 			category: BASE_API_URL + "course/v1/course_category/",

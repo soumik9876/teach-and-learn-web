@@ -102,7 +102,7 @@ export default function Home() {
 						console.log(course);
 						if (course.category?.title === cat_name) {
 							return (
-								<div className='col-span-1 pt-6'>
+								<div key={idx} className='col-span-1 pt-6'>
 									<CourseCard course={course} />
 								</div>
 							);
