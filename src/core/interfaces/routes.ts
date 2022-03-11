@@ -10,6 +10,7 @@ export const REST_API_ENDPOINTS = {
 		v1: {
 			course: BASE_API_URL + "course/v1/course/",
 			retrieve_course: (id: any) => BASE_API_URL + `course/v1/course/${id}`,
+			retrieve_video:(id:any) => BASE_API_URL + `course/v1/video/${id}`,
 			category: BASE_API_URL + "course/v1/course_category/",
 			video: BASE_API_URL + "course/v1/video/",
 			blog: BASE_API_URL + "course/v1/blog/",

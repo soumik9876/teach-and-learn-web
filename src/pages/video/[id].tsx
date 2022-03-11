@@ -1,17 +1,44 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getRequest } from "../../core/fetchers";
+import { REST_API_ENDPOINTS } from "../../core/interfaces/routes";
+import { debug_print } from "../../core/utils";
+import { RootState } from "../../redux/store";
 
 export default function VideoWatch() {
+	const router = useRouter();
+	const { id } = router.query;
+	const server_token = useSelector((state: RootState) => state.auth.server_token);
+	const [video, setVideo] = useState(undefined);
+
+	useEffect(() => {
+		if (id != undefined) {
+			debug_print(id);
+			getRequest(REST_API_ENDPOINTS.course.v1.retrieve_video(id), server_token).then((result) => {
+				debug_print(result);
+				setVideo(result);
+			});
+		}
+	}, [id, server_token]);
+
 	const Youtube = () => {
 		return (
 			<div className='video-responsive w-[64rem] h-[36rem] bg-black rounded-xl'>
-				<iframe
-					className='w-full h-full rounded-xl'
-					src={`https://www.youtube.com/embed/8Dqvj3KKoo8?rel=0&enablejsapi=1`}
-					frameBorder='0'
-					allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-					allowFullScreen
-					title='Embedded youtube'
-				/>
+				{video && (
+					<>
+						<iframe
+							className='w-full h-full rounded-xl'
+							src={`https://www.youtube.com/embed/${
+								video?.video_link.split("?v=")[1]
+							}?rel=0&enablejsapi=1`}
+							frameBorder='0'
+							allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+							allowFullScreen
+							title='Embedded youtube'
+						/>
+					</>
+				)}
 			</div>
 		);
 	};
@@ -149,13 +176,13 @@ export default function VideoWatch() {
 					</div>
 				</div>
 				<div className='my-4 mx-3'>
-					<div className="my-3">
+					<div className='my-3'>
 						<Comment />
 					</div>
-					<div className="my-3">
+					<div className='my-3'>
 						<Comment />
 					</div>
-					<div className="my-3">
+					<div className='my-3'>
 						<Comment />
 					</div>
 				</div>
@@ -166,70 +193,74 @@ export default function VideoWatch() {
 	return (
 		<div className='w-screen bg-c_background flex py-8 space-x-8'>
 			<div className='pl-28'>
-				<div className='h-8'>BreadCrumb</div>
-				<div className='flex w-full'>
-					<Youtube />
-				</div>
-				<div className='flex items-center pt-8 w-[64rem]'>
-					<div className='flex-1'>
-						<span
-							style={{
-								fontFamily: "Raleway",
-								fontStyle: "normal",
-								fontWeight: 600,
-								fontSize: "36px",
-								lineHeight: "42px",
-								color: "#000000",
-							}}
-						>
-							Introduction to Next Js
-						</span>
-					</div>
-					<div className='flex space-x-4'>
-						<button className='bg-c_primary_main py-2 px-6 rounded-lg'>
-							<span
+				{video && (
+					<>
+						<div className='h-8'>BreadCrumb</div>
+						<div className='flex w-full'>
+							<Youtube />
+						</div>
+						<div className='flex items-start pt-8 w-[64rem]'>
+							
+							<div className='flex-1'>
+								<span
+									style={{
+										fontFamily: "Raleway",
+										fontStyle: "normal",
+										fontWeight: 600,
+										fontSize: "36px",
+										lineHeight: "42px",
+										color: "#000000",
+									}}
+								>
+									{video.title}
+								</span>
+							</div>
+							<div className='flex space-x-4'>
+								<button className='bg-c_primary_main py-2 px-6 rounded-lg'>
+									<span
+										style={{
+											fontFamily: "Raleway",
+											fontStyle: "normal",
+											fontWeight: 600,
+											fontSize: "26px",
+											lineHeight: "31px",
+											color: "#585652",
+										}}
+									>
+										Quiz
+									</span>
+								</button>
+								<button className='bg-c_secondary_main text-white py-2 px-6 rounded-lg'>
+									<span
+										style={{
+											fontFamily: "Raleway",
+											fontStyle: "normal",
+											fontWeight: 600,
+											fontSize: "26px",
+											lineHeight: "31px",
+										}}
+									>
+										Next
+									</span>
+								</button>
+							</div>
+						</div>
+						<div className='pt-8 w-[64rem]'>
+							<p
 								style={{
 									fontFamily: "Raleway",
 									fontStyle: "normal",
-									fontWeight: 600,
-									fontSize: "26px",
-									lineHeight: "31px",
-									color: "#585652",
+									fontWeight: "normal",
+									fontSize: "17px",
+									lineHeight: "20px",
+									color: "#7C7C7C",
 								}}
 							>
-								Quiz
-							</span>
-						</button>
-						<button className='bg-c_secondary_main text-white py-2 px-6 rounded-lg'>
-							<span
-								style={{
-									fontFamily: "Raleway",
-									fontStyle: "normal",
-									fontWeight: 600,
-									fontSize: "26px",
-									lineHeight: "31px",
-								}}
-							>
-								Next
-							</span>
-						</button>
-					</div>
-				</div>
-				<div className='pt-8 w-[64rem]'>
-					<p
-						style={{
-							fontFamily: "Raleway",
-							fontStyle: "normal",
-							fontWeight: "normal",
-							fontSize: "17px",
-							lineHeight: "20px",
-							color: "#7C7C7C",
-						}}
-					>
-						This is the introduction of Next Js framework which is used to develop Web appilactions. It is a
-						Js framework. It is created based on react framework.
-					</p>
-				</div>
+								{video.description}
+							</p>
+						</div>
+					</>
+				)}
 			</div>
 			<div className='flex-1 pr-16'>
 				<div className='pt-8'>
@@ -245,4 +276,7 @@ export default function VideoWatch() {
 			</div>
 		</div>
 	);
+}
+function useROuter() {
+	throw new Error("Function not implemented.");
 }
