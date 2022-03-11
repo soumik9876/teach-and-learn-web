@@ -12,17 +12,27 @@ import {
 import useStyles from "./quiz.styles";
 import OptionIcon from "../../assets/option_icon.svg";
 import CorrectOptionIcon from "../../assets/correct-option.svg";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {debug_print} from "../../core/utils";
 
-const QuestionCard = ()=> {
+const QuestionCard = ({question, setCorrectList, index})=> {
     const classes = useStyles();
-    const [correctAns, setCorrectAns] = useState("");
+    const [correctAns, setCorrectAns] = useState(null);
+    useEffect(() => {
+        if(correctAns==null) return
+        setCorrectList((prev)=> {
+            let newList = [...prev];
+            newList[index] = (question.options[correctAns].is_correct ?? false);
+            return newList;
+        })
+    }, [correctAns]);
+
     return (
         <>
             <Box className={classes.card} >
                 <Grid item xs={12}>
                     <Typography variant={"subtitle1"} gutterBottom className={"mb-4 font-bold"}>
-                        1. What is the purpose of serializer?
+                        {question.question}
                     </Typography>
                 </Grid>
 
@@ -34,12 +44,14 @@ const QuestionCard = ()=> {
                         name="radio-buttons-group"
                         onChange={(event)=> {
                             setCorrectAns(event.target.value)
+
                         }}
                     >
-                        <FormControlLabel value="to filter queryset" control={<Radio />} label="to filter queryset" />
-                        <FormControlLabel value="to return response" control={<Radio />} label="to return response" />
-                        <FormControlLabel value="to convert model objects to native python data structure" control={<Radio />} label="to convert model objects to native python data structure" />
-                        <FormControlLabel value="to make api faster" control={<Radio />} label="to make api faster" />
+                        {question?.options.map((item,index)=> (
+                            <FormControlLabel key={index} value={index} control={<Radio/>} label={`${item.option}`}/>
+                        ))
+
+                        }
                     </RadioGroup>
                 </FormControl>
             </Box>
