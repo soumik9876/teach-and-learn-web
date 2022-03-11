@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { VideoCard } from "../../components/cards/video/VideoCard";
 import { getRequest } from "../../core/fetchers";
 import { REST_API_ENDPOINTS } from "../../core/interfaces/routes";
 import { debug_print } from "../../core/utils";
@@ -190,6 +191,24 @@ export default function VideoWatch() {
 		);
 	};
 
+	const RelatedCard = () => {
+		return (
+			<div>
+				<div>
+					<div className='text-lg font-medium mb-2'>More Videos</div>
+					<hr />
+					<div className='mt-3'>
+						<VideoCard video={video}/>
+
+						{/* {articleList.map((item, index) => (
+							<ArticleCard key={index} article={item} />
+						))} */}
+					</div>
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<div className='w-screen bg-c_background flex py-8 space-x-8'>
 			<div className='pl-28'>
@@ -271,9 +290,14 @@ export default function VideoWatch() {
 						</div>
 						<div className='pt-8'>
 							<div>
-								<CommentCard />
+								<RelatedCard />
 							</div>
 						</div>
+						{/* <div className='pt-8'>
+							<div>
+								<CommentCard />
+							</div>
+						</div> */}
 					</>
 				)}
 			</div>
