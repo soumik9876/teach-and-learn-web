@@ -264,7 +264,7 @@ export default function IndividualCourse() {
 								/>
 							</div>
 							<div className='flex-1 flex justify-center text-center'>
-								<div>
+								{/* <div>
 									<div>
 										<span
 											style={{
@@ -282,19 +282,40 @@ export default function IndividualCourse() {
 									<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
 										<span className='font-raleway'>Enroll</span>
 									</button>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>
 					<div className='flex-[.6] flex justify-center items-center'>
-						<img src={course.image_link} alt='' className='rounded-2xl w-[22rem] h-auto' />
+						<div>
+							<div className="w-full flex items-center justify-end space-x-4 mb-2">
+								<div>
+									<span
+										style={{
+											fontFamily: "Raleway",
+											fontStyle: "normal",
+											fontWeight: 600,
+											fontSize: "24px",
+											lineHeight: "28px",
+											color: "#FFFFFF",
+										}}
+									>
+										{course.price == 0 ? "Free" : `$ ${course.price}`}
+									</span>
+								</div>
+								<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
+									<span className='font-raleway'>Enroll</span>
+								</button>
+							</div>
+							<img src={course.image_link} alt='' className='rounded-2xl w-[22rem] h-auto' />
+						</div>
 					</div>
 				</div>
 			</div>
 		);
 	};
 
-	const CourseVideoCard = ({video}:any) => {
+	const CourseVideoCard = ({ video }: any) => {
 		return (
 			<div
 				className='w-full py-4 px-6 flex justify-between items-center cursor-pointer'
@@ -303,13 +324,13 @@ export default function IndividualCourse() {
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
 				}}
-				onClick={()=>{
-					router.push(ROUTES.video(video.id)) ;
+				onClick={() => {
+					router.push(ROUTES.video(video.id));
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
 					<div className='w-3 h-3 bg-c_primary_dark rounded-full'></div>
-					<div className="truncate">
+					<div className='truncate'>
 						<span
 							style={{
 								fontFamily: "Raleway",
@@ -366,7 +387,7 @@ export default function IndividualCourse() {
 							{course.video_set.map((obj, idx) => {
 								return (
 									<div key={idx} className='py-2'>
-										<CourseVideoCard  video={obj}/>
+										<CourseVideoCard video={obj} />
 									</div>
 								);
 							})}
@@ -377,7 +398,7 @@ export default function IndividualCourse() {
 		);
 	};
 
-	const CourseArticleCard = ({article}) => {
+	const CourseArticleCard = ({ article }) => {
 		return (
 			<div
 				className='w-full py-4 px-6 flex items-center cursor-pointer'
@@ -414,36 +435,38 @@ export default function IndividualCourse() {
 	const CourseArticles = () => {
 		return (
 			<div>
-				{course.blog_set.length !== 0 && <div>
-					<div className='mb-2'>
-						<span
-							style={{
-								fontFamily: "Raleway",
-								fontStyle: "normal",
-								fontWeight: 600,
-								fontSize: "24px",
-								lineHeight: "28px",
-								color: "#585652",
-							}}
-						>
-							Course Articles
-						</span>
-					</div>
+				{course.blog_set.length !== 0 && (
 					<div>
-						{course.blog_set.map((obj, idx) => {
-							return (
-								<div key={idx} className='py-2'>
-									<CourseArticleCard article={obj}/>
-								</div>
-							);
-						})}
+						<div className='mb-2'>
+							<span
+								style={{
+									fontFamily: "Raleway",
+									fontStyle: "normal",
+									fontWeight: 600,
+									fontSize: "24px",
+									lineHeight: "28px",
+									color: "#585652",
+								}}
+							>
+								Course Articles
+							</span>
+						</div>
+						<div>
+							{course.blog_set.map((obj, idx) => {
+								return (
+									<div key={idx} className='py-2'>
+										<CourseArticleCard article={obj} />
+									</div>
+								);
+							})}
+						</div>
 					</div>
-				</div>}
+				)}
 			</div>
 		);
 	};
 
-	const CourseQuizCard = ({quiz}) => {
+	const CourseQuizCard = ({ quiz }) => {
 		return (
 			<div
 				className='w-full py-4 px-6 flex justify-between items-center cursor-pointer'
@@ -452,8 +475,8 @@ export default function IndividualCourse() {
 					boxShadow: "0px 1px 23px rgba(214, 198, 198, 0.25)",
 					borderRadius: "16px",
 				}}
-				onClick={()=>{
-					router.push(ROUTES.quiz(quiz.id)) ;
+				onClick={() => {
+					router.push(ROUTES.quiz(quiz.id));
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -495,31 +518,33 @@ export default function IndividualCourse() {
 	const CourseQuizes = () => {
 		return (
 			<div>
-				{course.quiz_set.length !== 0 && <div>
-					<div className='mb-2'>
-						<span
-							style={{
-								fontFamily: "Raleway",
-								fontStyle: "normal",
-								fontWeight: 600,
-								fontSize: "24px",
-								lineHeight: "28px",
-								color: "#585652",
-							}}
-						>
-							Course Quizes
-						</span>
-					</div>
+				{course.quiz_set.length !== 0 && (
 					<div>
-						{course.quiz_set.map((obj, idx) => {
-							return (
-								<div key={idx} className='py-2'>
-									<CourseQuizCard quiz={obj}/>
-								</div>
-							);
-						})}
+						<div className='mb-2'>
+							<span
+								style={{
+									fontFamily: "Raleway",
+									fontStyle: "normal",
+									fontWeight: 600,
+									fontSize: "24px",
+									lineHeight: "28px",
+									color: "#585652",
+								}}
+							>
+								Course Quizes
+							</span>
+						</div>
+						<div>
+							{course.quiz_set.map((obj, idx) => {
+								return (
+									<div key={idx} className='py-2'>
+										<CourseQuizCard quiz={obj} />
+									</div>
+								);
+							})}
+						</div>
 					</div>
-				</div>}
+				)}
 			</div>
 		);
 	};
