@@ -11,6 +11,10 @@ export default function IndividualCourse() {
 	const { id } = router.query;
 	const server_token = useSelector((state: RootState) => state.auth.server_token);
 	const [course, setCourse] = useState(undefined);
+	const [purchased, setPurchased] = useState(false);
+	const user = useSelector((state: RootState) => state.auth.userProfile);
+
+	debug_print("purchased", purchased);
 
 	useEffect(() => {
 		if (id != undefined) {
@@ -18,9 +22,15 @@ export default function IndividualCourse() {
 			getRequest(REST_API_ENDPOINTS.course.v1.retrieve_course(id), server_token).then((result) => {
 				debug_print(result);
 				setCourse(result);
+				result.student_list.forEach((obj, idx) => {
+					debug_print("stud", obj.id);
+					if (obj.user.id == user.id) {
+						setPurchased(true);
+					}
+				});
 			});
 		}
-	}, [id, server_token]);
+	}, [id, server_token, user.id]);
 
 	const Chips = ({ svg, text }) => {
 		return (
@@ -288,25 +298,46 @@ export default function IndividualCourse() {
 					</div>
 					<div className='flex-[.6] flex justify-center items-center'>
 						<div>
-							<div className="w-full flex items-center justify-end space-x-4 mb-2">
-								<div>
-									<span
-										style={{
-											fontFamily: "Raleway",
-											fontStyle: "normal",
-											fontWeight: 600,
-											fontSize: "24px",
-											lineHeight: "28px",
-											color: "#FFFFFF",
-										}}
-									>
-										{course.price == 0 ? "Free" : `$ ${course.price}`}
-									</span>
-								</div>
-								<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
-									<span className='font-raleway'>Enroll</span>
-								</button>
+							<div className='w-full flex items-center justify-end space-x-4 mb-2'>
+								{!purchased && (
+									<>
+										<div>
+											<span
+												style={{
+													fontFamily: "Raleway",
+													fontStyle: "normal",
+													fontWeight: 600,
+													fontSize: "24px",
+													lineHeight: "28px",
+													color: "#FFFFFF",
+												}}
+											>
+												{course.price == 0 ? "Free" : `$ ${course.price}`}
+											</span>
+										</div>
+										<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
+											<span className='font-raleway'>Enroll</span>
+										</button>
+									</>
+								)}
+								{purchased && (
+									<>
+										<span
+											style={{
+												fontFamily: "Raleway",
+												fontStyle: "normal",
+												fontWeight: 600,
+												fontSize: "24px",
+												lineHeight: "28px",
+												color: "#FFFFFF",
+											}}
+										>
+											Enrolled
+										</span>
+									</>
+								)}
 							</div>
+
 							<img src={course.image_link} alt='' className='rounded-2xl w-[22rem] h-auto' />
 						</div>
 					</div>
