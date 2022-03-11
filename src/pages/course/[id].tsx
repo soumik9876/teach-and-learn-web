@@ -1,3 +1,4 @@
+import { Snackbar, Alert } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,12 +15,14 @@ export default function IndividualCourse() {
 	const [purchased, setPurchased] = useState(false);
 	const user = useSelector((state: RootState) => state.auth.userProfile);
 
+	const [snacksbar, setSnacksbar] = useState(false);
+
 	debug_print("purchased", purchased);
 
 	const enrollButtonClickHandler = () => {
 		getRequest(REST_API_ENDPOINTS.course.v1.course_join(id), server_token).then((result) => {
-			console.log(result) ;
-			setPurchased(true) ;
+			console.log(result);
+			setPurchased(true);
 		});
 	};
 
@@ -366,7 +369,11 @@ export default function IndividualCourse() {
 					borderRadius: "16px",
 				}}
 				onClick={() => {
-					router.push(ROUTES.video(video.id));
+					if (purchased) {
+						router.push(ROUTES.video(video.id));
+					} else {
+						setSnacksbar(true) ;
+					}
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -449,7 +456,11 @@ export default function IndividualCourse() {
 					borderRadius: "16px",
 				}}
 				onClick={() => {
-					router.push(ROUTES.article(article.id));
+					if (purchased) {
+						router.push(ROUTES.article(article.id));
+					} else {
+						setSnacksbar(true);
+					}
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -517,7 +528,11 @@ export default function IndividualCourse() {
 					borderRadius: "16px",
 				}}
 				onClick={() => {
-					router.push(ROUTES.quiz(quiz.id));
+					if (purchased) {
+						router.push(ROUTES.quiz(quiz.id));
+					} else {
+						setSnacksbar(true);
+					}
 				}}
 			>
 				<div className='flex space-x-6 items-center'>
@@ -595,6 +610,23 @@ export default function IndividualCourse() {
 			{course && (
 				<div>
 					<div>
+						<Snackbar
+							open={snacksbar}
+							autoHideDuration={6000}
+							onClose={() => {
+								setSnacksbar(false);
+							}}
+						>
+							<Alert
+								onClose={() => {
+									setSnacksbar(false);
+								}}
+								severity='warning'
+								sx={{ width: "100%" }}
+							>
+								You need to enroll the program.
+							</Alert>
+						</Snackbar>
 						<Banner />
 					</div>
 					<div className='w-full  flex justify-center py-8'>
