@@ -155,9 +155,9 @@ const TopBar = () => {
 										<Link href={"/"} passHref>
 											<Button className={navClass("/")}>Home</Button>
 										</Link>
-										<Link href={ROUTES.courses} passHref>
+										{/* <Link href={ROUTES.courses} passHref>
 											<Button className={navClass(ROUTES.courses)}>Courses</Button>
-										</Link>
+										</Link> */}
 										<Button
 											endIcon={<KeyboardArrowDownIcon />}
 											id='basic-button'
