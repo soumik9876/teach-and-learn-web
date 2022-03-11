@@ -31,6 +31,7 @@ export const ROUTES = {
 	createCourse: "/create-course",
 	about: "/about",
 	home: "/",
+	quizResult: "/quiz-result/",
 	course: (id: any = undefined) => {
 		return id ? `/course/${id}` : "/course/";
 	},
