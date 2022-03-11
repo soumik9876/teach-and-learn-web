@@ -13,6 +13,8 @@ export default function VideoWatch() {
 	const server_token = useSelector((state: RootState) => state.auth.server_token);
 	const [video, setVideo] = useState(undefined);
 
+	const [course, setCourse] = useState(undefined);
+
 	useEffect(() => {
 		if (id != undefined) {
 			debug_print(id);
@@ -22,6 +24,15 @@ export default function VideoWatch() {
 			});
 		}
 	}, [id, server_token]);
+
+	useEffect(() => {
+		if (video != undefined) {
+			getRequest(REST_API_ENDPOINTS.course.v1.retrieve_course(video.course), server_token).then((result) => {
+				debug_print(result);
+				setCourse(result);
+			});
+		}
+	}, [video, server_token]);
 
 	const Youtube = () => {
 		return (
@@ -194,17 +205,31 @@ export default function VideoWatch() {
 	const RelatedCard = () => {
 		return (
 			<div>
-				<div>
-					<div className='text-lg font-medium mb-2'>More Videos</div>
-					<hr />
-					<div className='mt-3'>
-						<VideoCard video={video}/>
+				{course && (
+					<>
+						<div>
+							<div className='text-lg font-medium mb-2'>More Videos</div>
+							<hr />
+							<div className='mt-3'>
+								{course.video_set.map((obj, idx) => {
+									if (obj.id !== video.id) {
+										console.log("here");
+										return (
+											<div key={idx}>
+												{" "}
+												<VideoCard video={obj} />{" "}
+											</div>
+										);
+									}
+								})}
 
-						{/* {articleList.map((item, index) => (
+								{/* {articleList.map((item, index) => (
 							<ArticleCard key={index} article={item} />
 						))} */}
-					</div>
-				</div>
+							</div>
+						</div>
+					</>
+				)}
 			</div>
 		);
 	};
