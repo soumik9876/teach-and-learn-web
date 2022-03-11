@@ -1,9 +1,11 @@
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 import {
 	AppBar,
 	Avatar,
 	Box,
 	Button,
-	Divider,
 	Grid,
 	IconButton,
 	InputBase,
@@ -13,22 +15,18 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import theme from "../../site-settings/material-ui-theme/theme";
-import { BreakpointContext } from "../../pages/_app";
-import { useContext, useEffect, useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import useStyles from "./topbar.styles";
-import { useRouter } from "next/router";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { REST_API_ENDPOINTS, ROUTES } from "../../core/interfaces/routes";
-import GoogleIcon from "@mui/icons-material/Google";
-import { debug_print } from "../../core/utils";
 import Link from "next/link";
-import GoogleLoginButton from "./google-login";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { getRequest } from "../../core/fetchers";
+import { REST_API_ENDPOINTS, ROUTES } from "../../core/interfaces/routes";
+import { debug_print } from "../../core/utils";
+import { BreakpointContext } from "../../pages/_app";
+import { RootState } from "../../redux/store";
+import theme from "../../site-settings/material-ui-theme/theme";
+import GoogleLoginButton from "./google-login";
+import useStyles from "./topbar.styles";
 
 const TopBar = () => {
 	const classes = useStyles();
@@ -141,13 +139,12 @@ const TopBar = () => {
 											placeholder='Search for courses'
 											inputProps={{ "aria-label": "search google maps" }}
 											value={searchText}
-											onChange={(e)=>setSearchText(e.target.value)}
-											onKeyDown={(e)=> {
-
-												if(e.key.toLowerCase()=="enter") {
-													e.preventDefault()
-													debug_print(`${ROUTES.search}?text=${searchText}`)
-													router.push(`${ROUTES.search}?text=${searchText}`).then()
+											onChange={(e) => setSearchText(e.target.value)}
+											onKeyDown={(e) => {
+												if (e.key.toLowerCase() == "enter") {
+													e.preventDefault();
+													debug_print(`${ROUTES.search}?text=${searchText}`);
+													router.push(`${ROUTES.search}?text=${searchText}`).then();
 												}
 											}}
 										/>
