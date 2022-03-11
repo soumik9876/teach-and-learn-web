@@ -20,6 +20,7 @@ export const REST_API_ENDPOINTS = {
             question: BASE_API_URL + "quiz/v1/question/",
             option: BASE_API_URL + "quiz/v1/option/",
             quiz: BASE_API_URL + "quiz/v1/quiz/",
+			quizResult: BASE_API_URL+ "quiz/v1/quiz-result/"
         }
     }
 }
