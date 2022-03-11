@@ -66,7 +66,7 @@ export default function IndividualCourse() {
 								{course.title}
 							</span>
 						</div>
-						<div className='py-4'>
+						<div className='my-4 line-clamp-6'>
 							<span
 								style={{
 									fontFamily: "Raleway",

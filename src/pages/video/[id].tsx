@@ -200,7 +200,6 @@ export default function VideoWatch() {
 							<Youtube />
 						</div>
 						<div className='flex items-start pt-8 w-[64rem]'>
-							
 							<div className='flex-1'>
 								<span
 									style={{
@@ -263,16 +262,20 @@ export default function VideoWatch() {
 				)}
 			</div>
 			<div className='flex-1 pr-16'>
-				<div className='pt-8'>
-					<div>
-						<NoteCard />
-					</div>
-				</div>
-				<div className='pt-8'>
-					<div>
-						<CommentCard />
-					</div>
-				</div>
+				{video && (
+					<>
+						<div className='pt-8'>
+							<div>
+								<NoteCard />
+							</div>
+						</div>
+						<div className='pt-8'>
+							<div>
+								<CommentCard />
+							</div>
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);
