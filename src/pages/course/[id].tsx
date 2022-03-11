@@ -66,7 +66,7 @@ export default function IndividualCourse() {
 								{course.title}
 							</span>
 						</div>
-						<div className='py-4'>
+						<div className='my-4 line-clamp-6'>
 							<span
 								style={{
 									fontFamily: "Raleway",
@@ -206,7 +206,7 @@ export default function IndividualCourse() {
 											/>
 										</svg>
 									}
-									text={`${10} Videos`}
+									text={`${course.video_set.length} Videos`}
 								/>
 
 								<Chips
@@ -224,7 +224,7 @@ export default function IndividualCourse() {
 											/>
 										</svg>
 									}
-									text={`${15} articles`}
+									text={`${course.blog_set.length} articles`}
 								/>
 
 								<Chips
@@ -242,7 +242,7 @@ export default function IndividualCourse() {
 											/>
 										</svg>
 									}
-									text={`${20} Quiz`}
+									text={`${course.quiz_set.length} Quiz`}
 								/>
 
 								<Chips

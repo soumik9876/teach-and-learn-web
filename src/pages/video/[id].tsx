@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { VideoCard } from "../../components/cards/video/VideoCard";
 import { getRequest } from "../../core/fetchers";
 import { REST_API_ENDPOINTS } from "../../core/interfaces/routes";
 import { debug_print } from "../../core/utils";
@@ -12,6 +13,8 @@ export default function VideoWatch() {
 	const server_token = useSelector((state: RootState) => state.auth.server_token);
 	const [video, setVideo] = useState(undefined);
 
+	const [course, setCourse] = useState(undefined);
+
 	useEffect(() => {
 		if (id != undefined) {
 			debug_print(id);
@@ -21,6 +24,15 @@ export default function VideoWatch() {
 			});
 		}
 	}, [id, server_token]);
+
+	useEffect(() => {
+		if (video != undefined) {
+			getRequest(REST_API_ENDPOINTS.course.v1.retrieve_course(video.course), server_token).then((result) => {
+				debug_print(result);
+				setCourse(result);
+			});
+		}
+	}, [video, server_token]);
 
 	const Youtube = () => {
 		return (
@@ -190,6 +202,38 @@ export default function VideoWatch() {
 		);
 	};
 
+	const RelatedCard = () => {
+		return (
+			<div>
+				{course && (
+					<>
+						<div>
+							<div className='text-lg font-medium mb-2'>More Videos</div>
+							<hr />
+							<div className='mt-3'>
+								{course.video_set.map((obj, idx) => {
+									if (obj.id !== video.id) {
+										console.log("here");
+										return (
+											<div key={idx}>
+												{" "}
+												<VideoCard video={obj} />{" "}
+											</div>
+										);
+									}
+								})}
+
+								{/* {articleList.map((item, index) => (
+							<ArticleCard key={index} article={item} />
+						))} */}
+							</div>
+						</div>
+					</>
+				)}
+			</div>
+		);
+	};
+
 	return (
 		<div className='w-screen bg-c_background flex py-8 space-x-8'>
 			<div className='pl-28'>
@@ -200,7 +244,6 @@ export default function VideoWatch() {
 							<Youtube />
 						</div>
 						<div className='flex items-start pt-8 w-[64rem]'>
-							
 							<div className='flex-1'>
 								<span
 									style={{
@@ -263,16 +306,25 @@ export default function VideoWatch() {
 				)}
 			</div>
 			<div className='flex-1 pr-16'>
-				<div className='pt-8'>
-					<div>
-						<NoteCard />
-					</div>
-				</div>
-				<div className='pt-8'>
-					<div>
-						<CommentCard />
-					</div>
-				</div>
+				{video && (
+					<>
+						<div className='pt-8'>
+							<div>
+								<NoteCard />
+							</div>
+						</div>
+						<div className='pt-8'>
+							<div>
+								<RelatedCard />
+							</div>
+						</div>
+						{/* <div className='pt-8'>
+							<div>
+								<CommentCard />
+							</div>
+						</div> */}
+					</>
+				)}
 			</div>
 		</div>
 	);
