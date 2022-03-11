@@ -40,6 +40,7 @@ const TopBar = () => {
 	const userProfile = useSelector((state: RootState) => state.auth.userProfile);
 	const [categories, setCategories] = useState([]);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [searchText, setSearchText] = useState("");
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -139,6 +140,16 @@ const TopBar = () => {
 											className={"text-xs"}
 											placeholder='Search for courses'
 											inputProps={{ "aria-label": "search google maps" }}
+											value={searchText}
+											onChange={(e)=>setSearchText(e.target.value)}
+											onKeyDown={(e)=> {
+
+												if(e.key.toLowerCase()=="enter") {
+													e.preventDefault()
+													debug_print(`${ROUTES.search}?text=${searchText}`)
+													router.push(`${ROUTES.search}?text=${searchText}`).then()
+												}
+											}}
 										/>
 									</Paper>
 								</Grid>

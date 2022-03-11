@@ -50,4 +50,5 @@ export const ROUTES = {
 	quiz: (id: any = undefined) => {
 		return id ? `/quiz/${id}` : "/quiz/";
 	},
+	search: "/course/search/"
 };
