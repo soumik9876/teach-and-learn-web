@@ -19,6 +19,7 @@ const QuizRoot = () => {
     const user = useSelector((state:RootState)=> state.auth.userProfile);
     const [quiz, setQuiz] = useState<any>({});
     const [correct, setCorrect] = useState([]);
+    const [courseImageLink, setCourseImageLink] = useState("");
     const breakpoints = useContext(BreakpointContext);
     const submit = ()=> {
         let total = 0;
@@ -44,6 +45,10 @@ const QuizRoot = () => {
             debug_print(response);
             setQuiz(response);
             setCorrect(new Array(response.question_list.length).fill(false));
+            getRequest(`${REST_API_ENDPOINTS.course.v1.course}${response.course}/`,serverToken).then((result)=> {
+                debug_print(result)
+                setCourseImageLink(result.image_link)
+            })
         })
     }, [router.query]);
     debug_print(correct)
@@ -52,7 +57,7 @@ const QuizRoot = () => {
             <Box className={classes.card}>
                 <Grid container spacing={2}>
                     <Grid item xs={4} lg={3} container alignItems={"center"}>
-                        <img src="/nodeJs2.png" alt="course_image" className={"rounded-2xl"}/>
+                        <img src={`${courseImageLink}`} alt="course_image" className={"rounded-2xl"}/>
                     </Grid>
                     <Grid item xs={8} lg={9} container alignItems={"center"}>
                         <Grid item xs={12} md={9}>

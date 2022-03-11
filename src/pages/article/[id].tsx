@@ -84,8 +84,8 @@ export default function ArticlePage() {
 					<div className='text-lg font-medium mb-2'>More Articles</div>
 					<hr />
 					<div className='mt-3'>
-						{articleList.map((item,index)=> (
-							<ArticleCard key={index} article={item}/>
+						{articleList && articleList.map((item,index)=> (
+							item.id!=article.id && <ArticleCard key={index} article={item}/>
 						))}
 					</div>
 				</div>
