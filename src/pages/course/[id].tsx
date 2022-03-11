@@ -16,6 +16,13 @@ export default function IndividualCourse() {
 
 	debug_print("purchased", purchased);
 
+	const enrollButtonClickHandler = () => {
+		getRequest(REST_API_ENDPOINTS.course.v1.course_join(id), server_token).then((result) => {
+			console.log(result) ;
+			setPurchased(true) ;
+		});
+	};
+
 	useEffect(() => {
 		if (id != undefined) {
 			debug_print(id);
@@ -315,7 +322,10 @@ export default function IndividualCourse() {
 												{course.price == 0 ? "Free" : `$ ${course.price}`}
 											</span>
 										</div>
-										<button className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'>
+										<button
+											onClick={enrollButtonClickHandler}
+											className='px-6 z-10 py-1 bg-white my-2 rounded-md cursor-pointer hover:shadow-md'
+										>
 											<span className='font-raleway'>Enroll</span>
 										</button>
 									</>
