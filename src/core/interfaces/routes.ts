@@ -32,6 +32,7 @@ export const ROUTES = {
 	about: "/about",
 	home: "/",
 	quizResult: "/quiz-result/",
+	category: "/category/",
 	course: (id: any = undefined) => {
 		return id ? `/course/${id}` : "/course/";
 	},
