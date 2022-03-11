@@ -5,7 +5,7 @@ export const base_headers = {
 const GetHeader = (server_token: string | null) => {
 	return {
 		...base_headers,
-		Authorization: `token ${server_token}`,
+		Authorization: server_token && `token ${server_token}`,
 	};
 };
 export const getRequest = async (url: string, server_token?: string | null) => {
