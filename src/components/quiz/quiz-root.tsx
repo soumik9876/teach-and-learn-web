@@ -47,7 +47,7 @@ const QuizRoot = () => {
             setCorrect(new Array(response.question_list.length).fill(false));
             getRequest(`${REST_API_ENDPOINTS.course.v1.course}${response.course}/`,serverToken).then((result)=> {
                 debug_print(result)
-                setCourseImageLink(result.image_link)
+                setCourseImageLink(result?.image_link)
             })
         })
     }, [router.query]);
