@@ -6,6 +6,7 @@ import { getRequest } from "../../core/fetchers";
 import { REST_API_ENDPOINTS, ROUTES } from "../../core/interfaces/routes";
 import { RootState } from "../../redux/store";
 import { debug_print } from "./../../core/utils";
+import { postRequest } from "./../../core/fetchers";
 
 export default function IndividualCourse() {
 	const router = useRouter();
@@ -20,10 +21,20 @@ export default function IndividualCourse() {
 	debug_print("purchased", purchased);
 
 	const enrollButtonClickHandler = () => {
-		getRequest(REST_API_ENDPOINTS.course.v1.course_join(id), server_token).then((result) => {
-			console.log(result);
-			setPurchased(true);
-		});
+		if (course.price == 0) {
+			getRequest(REST_API_ENDPOINTS.course.v1.course_join(id), server_token).then((result) => {
+				console.log(result);
+				setPurchased(true);
+			});
+		} else {
+			const body = {
+				category: "program_purchase",
+				product_id: course.id,
+			};
+			postRequest(REST_API_ENDPOINTS.course.v1.buy_course, body, server_token).then((result) => {
+				debug_print(result);
+			});
+		}
 	};
 
 	useEffect(() => {
@@ -372,7 +383,7 @@ export default function IndividualCourse() {
 					if (purchased) {
 						router.push(ROUTES.video(video.id));
 					} else {
-						setSnacksbar(true) ;
+						setSnacksbar(true);
 					}
 				}}
 			>
