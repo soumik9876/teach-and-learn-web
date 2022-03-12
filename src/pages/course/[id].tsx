@@ -340,7 +340,7 @@ export default function IndividualCourse() {
                                                     color: "#FFFFFF",
                                                 }}
                                             >
-												{course.price == 0 ? "Free" : `$ ${course.price}`}
+												{course.price == 0 ? "Free" : `৳ ${course.price}`}
 											</span>
                                         </div>
                                         <button

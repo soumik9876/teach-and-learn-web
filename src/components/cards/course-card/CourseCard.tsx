@@ -60,7 +60,7 @@ export default function CourseCard({ course }: any) {
 								color: "#000000",
 							}}
 						>
-							{course.price == 0 ? "Free" : `$${course.price}`}
+							{course.price == 0 ? "Free" : `৳${course.price}`}
 						</span>
 					</div>
 				</div>
