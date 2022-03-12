@@ -34,7 +34,7 @@ const AddArticleDialog = ({open, setOpen, courseId}) => {
             <AlertDialogSlide open={open} setOpen={setOpen}>
                 <Grid container spacing={2}>
                     <Grid item xs={6} container justifyContent={"center"} alignItems={"center"}>
-                        <img src="add-article.png" alt="add_video_illustration" className={"width-1/1"}/>
+                        <img src="/add-article.png" alt="add_video_illustration" className={"width-1/1"}/>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography align={"center"} gutterBottom className={"font-medium"}>

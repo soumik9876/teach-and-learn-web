@@ -42,7 +42,7 @@ export default function VideoWatch() {
 						<iframe
 							className='w-full h-full rounded-xl'
 							src={`https://www.youtube.com/embed/${
-								video?.video_link.split("?v=")[1]
+								video?.video_link.split("?v=")[1].split('&')[0]
 							}?rel=0&enablejsapi=1`}
 							frameBorder='0'
 							allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'

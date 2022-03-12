@@ -30,12 +30,13 @@ const AddQuizDialog = ({open, setOpen, courseId}) => {
     const [currentOptions, setCurrentOptions] = useState([]);
     const [currentOption, setCurrentOption] = useState("");
     const [isCurrentCorrect, setIsCurrentCorrect] = useState(false);
+    debug_print("currentQuestion1",currentQuestion)
     const publishQuestion = () => {
-
+        debug_print("currentQuestion",currentQuestion)
         const questionBody = {
             question: currentQuestion
         }
-
+        debug_print("questionbody",questionBody)
         postRequest(REST_API_ENDPOINTS.quiz.v1.question, questionBody, serverToken).then((response) => {
             debug_print("created question", response);
             currentOptions.forEach((item, index) => {
@@ -107,7 +108,7 @@ const AddQuizDialog = ({open, setOpen, courseId}) => {
             <AlertDialogSlide open={open} setOpen={setOpen}>
                 <Grid container spacing={2} alignItems={"center"} justifyContent={"center"}>
                     <Grid item xs={5} container justifyContent={"center"} alignItems={"center"}>
-                        <img src="add-quiz.png" alt="add_video_illustration" className={"width-1/1"}/>
+                        <img src="/add-quiz.png" alt="add_video_illustration" className={"width-1/1"}/>
                     </Grid>
                     <Grid item xs={7}>
                         <Typography align={"center"} gutterBottom className={"font-bold"}>
