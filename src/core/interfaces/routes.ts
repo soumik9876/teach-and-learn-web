@@ -1,4 +1,4 @@
-export const BASE_API_URL = "https://teach-and-learn-api.herokuapp.com/api/";
+export const BASE_API_URL = `${process.env.NEXT_PUBLIC_API_URL}api/`;
 
 export const REST_API_ENDPOINTS = {
 	auth: {
