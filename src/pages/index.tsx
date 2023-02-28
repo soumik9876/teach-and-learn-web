@@ -1,8 +1,9 @@
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CourseCard from "../components/cards/course-card/CourseCard";
 import { getRequest } from "../core/fetchers";
-import { REST_API_ENDPOINTS } from "../core/interfaces/routes";
+import { REST_API_ENDPOINTS, ROUTES } from "../core/interfaces/routes";
 import { RootState } from "../redux/store";
 import { debug_print } from "./../core/utils";
 
@@ -19,7 +20,7 @@ export default function Home() {
 			});
 			const unique = temp.filter((v, i, a) => a.indexOf(v) === i);
 			setCategories(unique);
-			console.log("unique", unique);
+			debug_print("unique", unique);
 		});
 	}, [server_token]);
 
@@ -42,17 +43,19 @@ export default function Home() {
 							</span>
 						</div>
 						<div className='pt-12 flex space-x-4'>
-							<button className='bg-c_primary_main rounded-md px-2 py-1 font-raleway'>
-								<span
-									style={{
-										fontStyle: "normal",
-										fontSize: "14px",
-										lineHeight: "21px",
-									}}
-								>
-									Your Courses
-								</span>
-							</button>
+							<Link href={ROUTES.course()}>
+								<button className='bg-c_primary_main rounded-md px-2 py-1 font-raleway'>
+									<span
+										style={{
+											fontStyle: "normal",
+											fontSize: "14px",
+											lineHeight: "21px",
+										}}
+									>
+										Your Courses
+									</span>
+								</button>
+							</Link>
 							<button>
 								<span
 									style={{
@@ -99,7 +102,7 @@ export default function Home() {
 				</div>
 				<div className='grid grid-cols-3'>
 					{courses.map((course, idx) => {
-						console.log(course);
+						debug_print(course);
 						if (course.category?.title === cat_name) {
 							return (
 								<div key={idx} className='col-span-1 pt-6'>

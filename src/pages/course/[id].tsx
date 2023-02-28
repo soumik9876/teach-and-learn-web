@@ -30,7 +30,7 @@ export default function IndividualCourse() {
 	const enrollButtonClickHandler = () => {
 		if (course.price == 0) {
 			getRequest(REST_API_ENDPOINTS.course.v1.course_join(id), server_token).then((result) => {
-				console.log(result);
+				debug_print(result);
 				setPurchased(true);
 			});
 		} else {

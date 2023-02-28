@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { debug_print } from "../../../core/utils";
 import { ROUTES } from "./../../../core/interfaces/routes";
 
 export default function CourseCard({ course }: any) {
 	const router = useRouter();
-
+    debug_print('course', course);
 	const gotoCourseDetails = () => {
 		router.push(ROUTES.course(course.id));
 	};
@@ -89,7 +90,7 @@ export default function CourseCard({ course }: any) {
 						}}
 					>
 						{course?.teacher_list.map((obj, idx)=>{
-							console.log('teacher',obj)
+							debug_print('teacher',obj)
 							return `${obj.user?.first_name ? obj.user?.first_name : 'Authority'} `
 						})}
 					</span>

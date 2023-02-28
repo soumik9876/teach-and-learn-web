@@ -45,7 +45,7 @@ export default function Search() {
 						</div>
 						<div className='grid grid-cols-3'>
 							{courses.map((course, idx) => {
-								console.log(course);
+								debug_print(course);
 								return (
 									<div key={idx} className='col-span-1 pt-6'>
 										<CourseCard course={course} />

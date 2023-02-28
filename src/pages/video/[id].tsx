@@ -213,7 +213,7 @@ export default function VideoWatch() {
 							<div className='mt-3'>
 								{course.video_set.map((obj, idx) => {
 									if (obj.id !== video.id) {
-										console.log("here");
+										debug_print("here");
 										return (
 											<div key={idx}>
 												{" "}

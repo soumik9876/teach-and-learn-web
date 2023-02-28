@@ -23,6 +23,7 @@ export const REST_API_ENDPOINTS = {
 			video: BASE_API_URL + "course/v1/video/",
 			blog: BASE_API_URL + "course/v1/blog/",
 			buy_course: BASE_API_URL + "course/v1/ssl-commerz-session/",
+			personalCourses: BASE_API_URL + "course/v1/course/personal/",
 		},
 	},
 	quiz: {
