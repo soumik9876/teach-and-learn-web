@@ -45,7 +45,7 @@ export default function IndividualCourse() {
 			) : (
 				<Grid container spacing={6}>
 					{Array.from(Array(3)).map((i) => (
-						<Grid item xs={12} md={6} lg={4}>
+						<Grid key={i} item xs={12} md={6} lg={4}>
 							<Skeleton variant="rectangular" className='pt-[56%]' />
 						</Grid>
 					))}
@@ -57,8 +57,8 @@ export default function IndividualCourse() {
 			{!loading ? (
 				<Grid container>
 					{personalCourses &&
-						personalCourses.takenCourses.map((course) => (
-							<Grid item xs={12} md={6} lg={4}>
+						personalCourses.takenCourses.map((course, index) => (
+							<Grid key={index} item xs={12} md={6} lg={4}>
 								{" "}
 								<CourseCard course={course} />
 							</Grid>
@@ -67,7 +67,7 @@ export default function IndividualCourse() {
 			): 
 				<Grid container spacing={2}>
 					{Array.from(Array(3)).map((i) => (
-						<Grid item xs={12} md={6} lg={4}>
+						<Grid key={i} item xs={12} md={6} lg={4}>
 							<Skeleton className='pt-[56%]' height={400} />
 						</Grid>
 					))}
